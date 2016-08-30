@@ -1,0 +1,39 @@
+{
+  "name": "spacebot",
+  "version": "0.1.0",
+  "description": "spacebot - A Slack Bot for exploring NASA images.",
+  "scripts": {
+    "pretest": "npm install",
+    "test": "gulp lint"
+  },
+  "keywords": [
+    "slackbot",
+    "slack",
+    "nasa",
+    "space",
+    "mars",
+    "apod"
+  ],
+  "author": "Michael Holtzman <mholtzman@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mikelax/spacebot"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "eslint": "^3.3.1",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.1.0",
+    "eslint-plugin-react": "^6.1.2",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-help": "^1.6.1",
+    "gulp-util": "^3.0.7"
+  },
+  "dependencies": {
+    "serverless-plugin-autoinstall": "0.5.5"
+  }
+}

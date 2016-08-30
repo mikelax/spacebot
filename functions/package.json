@@ -1,0 +1,21 @@
+{
+  "name": "spacebot-functions",
+  "version": "0.1.0",
+  "description": "Spacebot lambda functions",
+  "scripts": {
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mikelax/spacebot"
+  },
+  "dependencies": {
+    "bluebird": "3.4.0",
+    "create-error": "0.3.1",
+    "lodash": "4.12.0",
+    "moment": "2.14.1",
+    "qs": "6.2.1",
+    "request": "2.74.0",
+    "request-promise": "4.1.1"
+  }
+}

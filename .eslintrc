@@ -1,0 +1,21 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "mocha": true,
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    //AWS Lambda specific
+    "no-console": [0],
+
+    // ES6 func not yet implemented in node 4.3
+    "strict": [0],
+    // "prefer-rest-params": [0],
+    "object-shorthand": [0],
+
+    //Couple of my overrides
+    "comma-dangle": [2, "never"],
+    "max-len": [2, 120, 4, {"ignoreComments": true, "ignoreUrls": true}],
+  }
+}

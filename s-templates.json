@@ -1,0 +1,14 @@
+{
+  "apiGatewayRequestTemplate": {
+    "application/json": {
+      "body": "$input.json('$')",
+      "pathParams" : "$input.params().path",
+      "queryParams" : "$input.params().querystring"
+    },
+    "application/x-www-form-urlencoded": {
+      "body": "$input.json('$')",
+      "pathParams" : "$input.params().path",
+      "queryParams" : "$input.params().querystring"
+    }
+  }
+}
