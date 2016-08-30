@@ -16,7 +16,7 @@ const getAPOD = (date) =>
     json: true
   })
   .catch((err) => {
-    console.log('Error requesting NASA APOD with qs');
+    console.log('Error requesting NASA APOD with qs', err, err.stack);
     throw err;
   })
   .then(apod => {
@@ -24,6 +24,11 @@ const getAPOD = (date) =>
     return apod;
   });
 
+/**
+ * Generate a URL for the APOD page for a specific date
+ * @param {string} The date in YYYY-MM-DD format
+ * @return {string} The APOD Page URL
+ */
 const getAPODPageUrl = (date) => {
   const year = date.substring(2, 4);
   const month = date.substring(5, 7);
@@ -47,7 +52,7 @@ const getAPODResponse = (params) => Bluebird.try(() => {
   }
   // Account for lambda running in UTC but nasa APIs in ET
   date = date.utcOffset(-4);
-  console.log(`The APOD date is ${date.format('YYYY-MM-DD')}`);
+  console.log(`The APODResponse date is ${date.format('YYYY-MM-DD')}`);
 
   return getAPOD(date)
   .then(apod => {

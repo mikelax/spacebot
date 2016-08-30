@@ -17,8 +17,6 @@ module.exports.slash = function slash(event, context, cb) {
   console.log(slackPayload);
 
   slack.verifyToken(slackPayload.token)
-
-  // .then(() => Bluebird.try(() => {
   .then(() => {
     const slackText = _.isString(slackPayload.text)
       && !_.isUndefined(slackPayload.text)
@@ -28,40 +26,12 @@ module.exports.slash = function slash(event, context, cb) {
       ? input[0] : 'help';
     const params = _.tail(input);
     return { command: command, params: params };
-  // }))
   })
   .then((command) => Bluebird.try(() =>
-    // TODO send command.params as param
     COMMANDS[command.command](command.params)
   ))
   .then(resp => {
-    console.log('Inside final then with resp', resp);
     cb(null, resp);
   })
-
-  // .then(() => nasa.getAPOD())
-  // .then(apod => {
-  //   const apodPageUrl = nasa.getAPODPageUrl(apod.date);
-  //   const resp = {
-  //     response_type: 'in_channel',
-  //     attachments: [
-  //       {
-  //         fallback: `${apod.title} - ${apodPageUrl}`,
-  //         title: apod.title,
-  //         title_link: apodPageUrl,
-  //         image_url: apod.url,
-  //         text: apod.explanation,
-  //         footer: `APOD ${apod.date}`,
-  //         color: '#0B3D91'
-  //       },
-  //       {
-  //         title: 'Open the HD Image',
-  //         title_link: apod.hdurl,
-  //         color: '#FC3D21'
-  //       }
-  //     ]
-  //   };
-  //   cb(null, resp);
-  // })
   .catch(e => cb(errorToJsonAndLog(e)));
 };
