@@ -1,0 +1,6 @@
+{
+  "name": "Spacebot",
+  "tagline": "spacebot - A Slack Bot for exploring NASA images",
+  "body": "# Usage\r\n\r\nAfter installing spacebot there are several commands spacebot understands\r\n\r\n### `/spacebot help`\r\n\r\nDisplay the help and usage information\r\n\r\n## APOD\r\n\r\nThe [Astronomy Picture of the Day](http://apod.nasa.gov/apod/astropix.html) is one of NASA's most popular websites.\r\n\r\n### `/spacebot apod`\r\n\r\nDisplay today's APOD image\r\n\r\n### `/spacebot apod random`\r\n\r\nDisplay a random APOD image from anytime\r\n\r\n### `/spacebot apod date`\r\n\r\nDisplay the APOD image for the given date. The format for `date` is `YYYY-MM-DD`",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
