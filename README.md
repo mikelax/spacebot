@@ -10,7 +10,7 @@ Display the help and usage information
 
 ## APOD
 
-[Astronomy Picture of the Day](http://apod.nasa.gov/apod/astropix.html)
+The [Astronomy Picture of the Day](http://apod.nasa.gov/apod/astropix.html) is one of NASA's most popular websites.
 
 ### `/spacebot apod`
 
@@ -23,3 +23,5 @@ Display a random APOD image from anytime
 ### `/spacebot apod date`
 
 Display the APOD image for the given date. The format for `date` is `YYYY-MM-DD`
+
+## License - [MIT](LICENSE)
