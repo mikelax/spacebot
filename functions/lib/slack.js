@@ -1,6 +1,7 @@
 'use strict';
 
 const Bluebird = require('bluebird');
+const request = require('request-promise');
 
 const InvalidTokenError = require('./errors').InvalidTokenError;
 
@@ -12,6 +13,25 @@ const verifyToken = (requestToken) => Bluebird.try(() => {
     throw new InvalidTokenError(`The request token of ${requestToken} does not match slackbot token`);
   }
 });
+
+const exchangeCodeForToken = (code) =>
+  request({
+    uri: 'https://slack.com/api/oauth.access',
+    method: 'POST',
+    form: {
+      client_id: process.env.SLACK_CLIENT_ID,
+      client_secret: process.env.SLACK_CLIENT_SECRET,
+      code: code
+    }
+  })
+  .then(resp => {
+    console.log('Response from Slack oauth.access', resp);
+    return resp;
+  })
+  .catch((err) => {
+    console.log('Error exchanging OAuth Code for Access Token', err, err.stack);
+    throw err;
+  });
 
 const getHelpResponse = () => {
   const response = {
@@ -34,6 +54,7 @@ const getHelpResponse = () => {
 };
 
 module.exports = {
-  verifyToken,
-  getHelpResponse
+  exchangeCodeForToken,
+  getHelpResponse,
+  verifyToken
 };

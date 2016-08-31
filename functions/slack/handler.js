@@ -2,10 +2,10 @@
 
 const _ = require('lodash');
 const Bluebird = require('bluebird');
-const qs = require('qs');
 const errorToJsonAndLog = require('../lib/errors').errorToJsonAndLog;
-const slack = require('../lib/slack');
 const nasa = require('../lib/nasa');
+const qs = require('qs');
+const slack = require('../lib/slack');
 
 const COMMANDS = {
   help: slack.getHelpResponse,

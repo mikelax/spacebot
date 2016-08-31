@@ -1,10 +1,10 @@
 {
-  "name": "slack",
+  "name": "oauth",
   "runtime": "nodejs4.3",
-  "description": "Slack /spacebot slash command function",
+  "description": "Slack OAuth function",
   "customName": false,
   "customRole": false,
-  "handler": "slack/handler.slash",
+  "handler": "oauth/handler.oauth",
   "timeout": 6,
   "memorySize": 128,
   "authorizer": {},
@@ -13,14 +13,23 @@
   },
   "endpoints": [
     {
-      "path": "slack/slash",
-      "method": "POST",
+      "path": "slack/oauth",
+      "method": "GET",
       "type": "AWS",
       "authorizationType": "none",
       "authorizerFunction": false,
       "apiKeyRequired": false,
-      "requestParameters": {},
-      "requestTemplates": "$${apiGatewayRequestTemplate}",
+      "requestParameters": {
+        "integration.request.querystring.code": "method.request.querystring.code",
+        "integration.request.querystring.state": "method.request.querystring.state",
+        "integration.request.querystring.error": "method.request.querystring.error"
+      },
+      "requestTemplates": {
+        "application/json": {
+          "code" : "$input.params('code')",
+          "state" : "$input.params('state')"
+        }
+      },
       "responses": {
         "400": {
           "statusCode": "400"
@@ -40,8 +49,8 @@
   ],
   "events": [],
   "environment": {
-    "SLACK_TOKEN": "${slackToken}",
-    "NASA_API_KEY": "${nasaApiKey}",
+    "SLACK_CLIENT_ID": "${slackClientId}",
+    "SLACK_CLIENT_SECRET": "${slackClientSecret}",
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}"

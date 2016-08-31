@@ -3,6 +3,7 @@
 const createError = require('create-error');
 
 const InvalidTokenError = createError('InvalidTokenError');
+const RejectOAuthError = createError('RejectOAuthError');
 
 const errorToJsonAndLog = e => {
   console.log('Logging Error: ', e, e.stack);
@@ -14,6 +15,7 @@ const errorToJsonAndLog = e => {
 };
 
 module.exports = {
+  errorToJsonAndLog,
   InvalidTokenError,
-  errorToJsonAndLog
+  RejectOAuthError
 };

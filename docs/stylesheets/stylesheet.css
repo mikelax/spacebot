@@ -68,6 +68,15 @@ header h2 {
   color: #666;
 }
 
+.container .slack {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+#downloads {
+  text-align: center;
+}
+
 #downloads .btn {
   display: inline-block;
   text-align: center;
