@@ -9,8 +9,13 @@ module.exports.oauth = function oauth(event, context, cb) {
 
   slack.exchangeCodeForToken(oauthCode)
   .then(resp => {
-    // TODO 302 redirect to homepage
-    cb(null, resp);
+    console.log(resp);
+    cb(null, { location: process.env.OAUTH_SUCCESS_URL });
   })
-  .catch(e => cb(errorToJsonAndLog(e)));
+  .catch(e => {
+    const jsonError = errorToJsonAndLog(e);
+    console.log('Error in OAuth token exchange', jsonError);
+    // Pass null as error param so response handler still picks up the location for 302 redirect
+    cb(null, { location: process.env.OAUTH_ERROR_URL });
+  });
 };

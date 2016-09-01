@@ -1,6 +1,7 @@
 'use strict';
 
 const Bluebird = require('bluebird');
+const OAuthError = require('../lib/errors').OAuthError;
 const request = require('request-promise');
 
 const InvalidTokenError = require('./errors').InvalidTokenError;
@@ -22,10 +23,14 @@ const exchangeCodeForToken = (code) =>
       client_id: process.env.SLACK_CLIENT_ID,
       client_secret: process.env.SLACK_CLIENT_SECRET,
       code: code
-    }
+    },
+    json: true
   })
   .then(resp => {
     console.log('Response from Slack oauth.access', resp);
+    if (resp.ok === false) {
+      throw new OAuthError('OAuth ok response is false');
+    }
     return resp;
   })
   .catch((err) => {

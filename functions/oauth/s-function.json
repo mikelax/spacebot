@@ -35,13 +35,9 @@
           "statusCode": "400"
         },
         "default": {
-          "statusCode": "200",
-          "responseParameters": {},
-          "responseModels": {
-            "application/json;charset=UTF-8": "Empty"
-          },
-          "responseTemplates": {
-            "application/json;charset=UTF-8": ""
+          "statusCode": "302",
+          "responseParameters": {
+            "method.response.header.Location": "integration.response.body.location"
           }
         }
       }
@@ -51,6 +47,8 @@
   "environment": {
     "SLACK_CLIENT_ID": "${slackClientId}",
     "SLACK_CLIENT_SECRET": "${slackClientSecret}",
+    "OAUTH_SUCCESS_URL": "${oauthSuccessUrl}",
+    "OAUTH_ERROR_URL": "${oauthErrorUrl}",
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
     "SERVERLESS_REGION": "${region}"
