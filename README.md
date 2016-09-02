@@ -1,6 +1,6 @@
 # What is SpaceBot - The Slack Bot for Space
 [![David](https://img.shields.io/david/mikelax/spacebot.svg?maxAge=2592000)](https://david-dm.org/mikelax/spacebot)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://spdx.org/licenses/MIT)
+[![license](https://img.shields.io/badge/license-Apache--2-blue.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Spacebot is a Slack bot that you can interact with to view images and information about space.
 It makes use of information from NASA including their ever popular [Astronomy Picture of the Day](http://apod.nasa.gov/apod/astropix.html) and [mars rovers](http://mars.nasa.gov/) data.
@@ -25,4 +25,4 @@ This project is built upon AWS Lambda using the aptly named [serverless](https:/
 
 # License
 
-[MIT License](LICENSE)
+[Apache License 2.0](LICENSE)
