@@ -4,10 +4,7 @@ const errorToJsonAndLog = require('../lib/errors').errorToJsonAndLog;
 const slack = require('../lib/slack');
 
 module.exports.oauth = function oauth(event, context, cb) {
-  // TODO check for event.error and raise error
-  const oauthCode = event.code;
-
-  slack.exchangeCodeForToken(oauthCode)
+  slack.exchangeCodeForToken(event)
   .then(resp => {
     console.log(resp);
     cb(null, { location: process.env.OAUTH_SUCCESS_URL });

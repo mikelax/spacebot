@@ -27,7 +27,8 @@
       "requestTemplates": {
         "application/json": {
           "code" : "$input.params('code')",
-          "state" : "$input.params('state')"
+          "state" : "$input.params('state')",
+          "error" : "$input.params('error')"
         }
       },
       "responses": {

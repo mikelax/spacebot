@@ -15,17 +15,29 @@ const verifyToken = (requestToken) => Bluebird.try(() => {
   }
 });
 
-const exchangeCodeForToken = (code) =>
-  request({
+/**
+ * Exchange OAuth token for access token
+ * @param {Object} event - The Lambda event
+ * @param {string} event.code - The Token to exchange
+ * @param {string} [event.error] - An error from the OAuth process
+ * @param {string} [event.state] - String passed through from initial OAuth request
+ */
+const exchangeCodeForToken = (event) =>
+  Bluebird.try(() => {
+    if (event.error) {
+      throw new OAuthError('OAuth Request rejected by user');
+    }
+  })
+  .then(() => request({
     uri: 'https://slack.com/api/oauth.access',
     method: 'POST',
     form: {
       client_id: process.env.SLACK_CLIENT_ID,
       client_secret: process.env.SLACK_CLIENT_SECRET,
-      code: code
+      code: event.code
     },
     json: true
-  })
+  }))
   .then(resp => {
     console.log('Response from Slack oauth.access', resp);
     if (resp.ok === false) {

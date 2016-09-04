@@ -56,7 +56,6 @@ const getAPODResponse = (params) => Bluebird.try(() => {
 
   return getAPOD(date)
   .then(apod => {
-    console.log('APOD in getAPODResponse function is', apod);
     const apodPageUrl = getAPODPageUrl(apod.date);
     const resp = {
       response_type: 'in_channel',
