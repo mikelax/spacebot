@@ -5,11 +5,13 @@ const Bluebird = require('bluebird');
 const errorToJsonAndLog = require('../lib/errors').errorToJsonAndLog;
 const nasa = require('../lib/nasa');
 const qs = require('qs');
+const rovers = require('../lib/rovers');
 const slack = require('../lib/slack');
 
 const COMMANDS = {
   help: slack.getHelpResponse,
-  apod: nasa.getAPODResponse
+  apod: nasa.getAPODResponse,
+  rovers: rovers.getMarsRoversResponse
 };
 
 module.exports.slash = function slash(event, context, cb) {

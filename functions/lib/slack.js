@@ -57,11 +57,12 @@ const getHelpResponse = () => {
       {
         pretext: 'Welcome to the spacebot Slack Bot. spacebot helps you find interesting images from NASA',
         text: `There are several commands you can use to find images from various NASA APIs\n
-            /spaecbot help - Displays this help message\n
-            /spacebot apod - Display today's Astronomy Picture of the Day\n
-            /spacebot apod random - Display a random 'Astronomy Picture of the Day'\n
-            /spacebot apod date - Display the 'Astronomy Picture of the Day' for the given date. Format is YYYY-MM-DD\n
-            `,
+          /spaecbot help - Displays this help message\n
+          /spacebot apod - Display today's Astronomy Picture of the Day\n
+          /spacebot apod random - Display a random 'Astronomy Picture of the Day'\n
+          /spacebot apod date - Display the 'Astronomy Picture of the Day' for the given date. Format is YYYY-MM-DD\n
+          /spacebot rovers help - Display help for commands on Mars rovers, cameras, and other data\n
+          `,
         color: '#0B3D91'
       }
     ]
