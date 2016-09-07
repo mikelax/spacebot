@@ -70,7 +70,7 @@ const CAMERAS = {
 /**
  * Convert an earth date to Sol number. Sol number is unique to each rover
  * @param {string} rover - The name of the rover
- * @param {Moment} date - A Moment earth date
+ * @param {string} date - A string date in either earth or Sol format
  * @return {number} - The Sol number for the given rover
  */
 const convertDatetoSol = (rover, date) => {
@@ -78,13 +78,19 @@ const convertDatetoSol = (rover, date) => {
   return 1000;
 };
 
-const getMarsRoverPhotos = (rover, camera) =>
+/**
+ * Make an API call to NASA to get Mars rover photos
+ * @param {string} rover - The name of the rover
+ * @param {string} camera - The name of the camera
+ * @param {number} sol - The Sol date to get images from
+ */
+const getMarsRoverPhotos = (rover, camera, sol) =>
   request({
     uri: `https://api.nasa.gov/mars-photos/api/v1/rovers/${_.lowerCase(rover)}/photos`,
     qs: {
       api_key: process.env.NASA_API_KEY,
       camera: camera,
-      sol: 1050,
+      sol: sol,
       page: 1
     },
     json: true
@@ -99,16 +105,16 @@ const getMarsRoverPhotos = (rover, camera) =>
   });
 
 const getRoverCameraHelp = () => {
-  let resp = {
+  const resp = {
     response_type: 'ephemeral',
     attachments: []
   };
 
   // iterate over cameras object
   _.forEach(CAMERAS, (value) => {
-    let camera = {};
+    const camera = {};
     let desc = `${value.code} - ${value.description}.\n  Avaiable on: `;
-    desc += _.map(value.rovers,'name').join(', ');
+    desc += _.map(value.rovers, 'name').join(', ');
 
     camera.text = desc;
     resp.attachments.push(camera);
@@ -122,10 +128,11 @@ const getRoverHelp = () => {
     attachments: [
       {
         pretext: `The rovers sub-command returns data and images from the three recent Mars rovers.
-         If a rover name is ommitted then Curiosity will be used as the default.`,
+         If a rover name is ommitted then Curiosity will be used as the default.
+         The date can be listed as either an earth date in the format YYYY-MM-DD or Sol number.`,
         text: `/spacebot rovers help - Display this command\n
         /spacebot rovers cameras list - Display the list of onboard cameras. Theses can be used to filter the images\n
-        /spacebot rovers photos name camera date - Display a list of images from the given rover`,
+        /spacebot rovers photos name camera date - Display a list of images from the given rover. One or more parameters can be left off starting from date, camera, then rover.`, // eslint-disable-line max-len
         fields: [
           {
             title: 'Curiosity',
@@ -221,40 +228,51 @@ const getRoverHelp = () => {
 
 const getMarsRoversResponse = (params) => Bluebird.try(() => {
   // try to parse parameters
-  let resp;
+  let command;
   if (_.size(params) > 0) {
     if (_.lowerCase(params[0]) === 'help') {
-      resp = getRoverHelp();
+      command = getRoverHelp();
     } else if (_.lowerCase(params[0]) === 'cameras' && _.lowerCase(params[1]) === 'list') {
-      resp = getRoverCameraHelp();
+      command = getRoverCameraHelp();
     } else if (_.lowerCase(params[0]) === 'photos') {
       // TODO check for other params
-      getMarsRoverPhotos('curiosity', 'MAST')
+      const roverName = params[1] || 'curiosity';
+      const cameraName = params[2] || 'MAST';
+      // Function will handle undefined or invalid dates and return a correct Sol
+      const sol = convertDatetoSol(roverName, params[3]);
+      command = getMarsRoverPhotos(roverName, cameraName, sol)
         .then(photos => {
-          resp = { response_type: 'in_channel', attachments: [] }
-          _.forEach(photos, (photo) => {
-            const camera = {
+          const resp = { response_type: 'in_channel', attachments: [] };
+
+          const subset = _.chain(photos.photos)
+            .sampleSize(7)
+            .value();
+          _.each(subset, photo => {
+            const item = {
               text: `${photo.camera.name} - ${photo.camera.full_name}.\n${photo.earth_date} / Sol ${photo.sol}`,
               image_url: photo.img_src,
               color: '#0B3D91'
-            }
-            resp.attachments.push(camera);
+            };
+            resp.attachments.push(item);
           });
+          return resp;
         })
         .catch(err => {
-          resp = {
+          console.log('Error parsing response from getMarsRoverPhotos', err, err.stack);
+          return {
             response_type: 'ephemeral',
-            text: 'There was an error with your last request, please adjust the parameters and try again'
-          }
+            text: 'There was an error with your last request, please adjust the parameters and try again. Try to check the rover name, camera name is available on the rover, and the date or Sol number is available for the given rover.' // eslint-disable-line max-len
+          };
         });
     } else {
-      resp = getRoverHelp();
+      command = getRoverHelp();
     }
   } else {
-    resp = getRoverHelp();
+    command = getRoverHelp();
   }
 
-  return resp;
+  return Bluebird
+    .resolve(command);
 });
 
 module.exports = {
