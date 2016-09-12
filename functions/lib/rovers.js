@@ -126,7 +126,8 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
     page: 1
   };
 
-  if (camera !== 'all') {
+  // TODO change this logic to only add qs.camera if value matches name from CAMERAS object
+  if (_.lowerCase(camera) !== _.lowerCase('all')) {
     qs.camera = camera;
   }
 
@@ -148,6 +149,8 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
 const getRoverCameraHelp = () => {
   const resp = {
     response_type: 'ephemeral',
+    mrkdwn: ['text'],
+    text: 'You may use a value of _all_ to get images from all of the available cameras',
     attachments: []
   };
 
@@ -170,30 +173,14 @@ const getRoversHelp = () => {
     attachments: [
       {
         pretext: `The rovers sub-command returns data and images from the three recent Mars rovers.
-         If a rover name is ommitted then Curiosity will be used as the default.
-         The date can be listed as either an earth date in the format _YYYY-MM-DD_ or _Sol_ number for the given rover.`,
+         If a rover name is ommitted then _Curiosity_ will be used as the default.
+         The date can be listed as either an earth date in the format _YYYY-MM-DD_ or _Sol_ number for the given rover.
+         *Please Note* there may be no photos for a given date / _Sol_ because none were captured or they have not yet become public`,
         text: `/spacebot rovers help - Display this command\n
         /spacebot rovers info - Display information about the three rovers with links for even more information.\n
         /spacebot rovers cameras list - Display the list of onboard cameras. Theses can be used to filter the images. You can also use a value of 'all' to get images from all cameras.\n
         /spacebot rovers photos name camera date - Display a list of images from the given rover. One or more parameters can be left off starting from date, camera, then rover.`,
-        mrkdwn_in: ['text', 'pretext'],
-        fields: [
-          {
-            title: 'Curiosity',
-            value: 'Active',
-            short: true
-          },
-          {
-            title: 'Opportunity',
-            value: 'Active',
-            short: true
-          },
-          {
-            title: 'Spirit',
-            value: 'Retired',
-            short: true
-          }
-        ]
+        mrkdwn_in: ['text', 'pretext']
       }
     ]
   };
@@ -203,6 +190,9 @@ const getRoversHelp = () => {
 };
 
 const getRoversInfoHelp = () => {
+  const curiositySol = convertDatetoSol(ROVERS.Curiosity.name);
+  const opportunitySol = convertDatetoSol(ROVERS.Opportunity.name);
+
   /* eslint-disable max-len */
   const resp = {
     response_type: 'ephemeral',
@@ -221,6 +211,16 @@ const getRoversInfoHelp = () => {
           {
             title: 'Landing Date',
             value: 'Aug. 6, 2012 05:17 UTC',
+            short: true
+          },
+          {
+            title: 'Mission Sol Date',
+            value: curiositySol,
+            short: true
+          },
+          {
+            title: 'Mission Status',
+            value: 'Active',
             short: true
           },
           {
@@ -247,6 +247,16 @@ const getRoversInfoHelp = () => {
             short: true
           },
           {
+            title: 'Mission Sol Date',
+            value: opportunitySol,
+            short: true
+          },
+          {
+            title: 'Mission Status',
+            value: 'Active',
+            short: true
+          },
+          {
             title: 'Destination',
             value: 'Terra Meridiani, Mars',
             short: true
@@ -267,6 +277,16 @@ const getRoversInfoHelp = () => {
           {
             title: 'Landing Date',
             value: 'January 04, 2004 04:35 UTC',
+            short: true
+          },
+          {
+            title: 'Final Mission Sol Date',
+            value: 2627,
+            short: true
+          },
+          {
+            title: 'Mission Status',
+            value: 'Retired',
             short: true
           },
           {
