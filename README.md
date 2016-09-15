@@ -11,7 +11,7 @@ Please contact me or open an issue if there is a command or data you would like 
 
 Click the button below to add spacebot to your slack channel and get started.
 
-<a href="https://slack.com/oauth/authorize?scope=incoming-webhook,commands&client_id=8804364867.74269805537"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+<a href="https://slack.com/oauth/authorize?scope=commands&client_id=8804364867.74269805537"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
 # Usage
 
