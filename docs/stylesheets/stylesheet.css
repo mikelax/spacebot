@@ -260,6 +260,15 @@ a {
   zoom:1;
 }
 
+.success {
+  border: 1px solid;
+  background-color: #DFF2BF;
+  color: #000000;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 
 
 form#contact fieldset {
