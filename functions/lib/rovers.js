@@ -157,6 +157,7 @@ const getRoverCameraHelp = () => {
   // iterate over cameras object
   _.forEach(CAMERAS, (value) => {
     const camera = {};
+    camera.fallback = `${value.code} - ${value.description}.`;
     let desc = `${value.code} - ${value.description}.\n  Avaiable on: `;
     desc += _.map(value.rovers, 'name').join(', ');
 
@@ -172,8 +173,9 @@ const getRoversHelp = () => {
     response_type: 'ephemeral',
     attachments: [
       {
+        fallback: 'The rovers sub-command returns data and images from Mars rovers',
         pretext: `The rovers sub-command returns data and images from the three recent Mars rovers.
-         If a rover name is ommitted then _Curiosity_ will be used as the default.
+         If a rover name is omitted then _Curiosity_ will be used as the default.
          The date can be listed as either an earth date in the format _YYYY-MM-DD_ or _Sol_ number for the given rover.
          *Please Note* there may be no photos for a given date / _Sol_ because none were captured or they have not yet become public`,
         text: `/spacebot rovers help - Display this command\n
@@ -198,6 +200,7 @@ const getRoversInfoHelp = () => {
     response_type: 'ephemeral',
     attachments: [
       {
+        fallback: 'Curiosity - Mars Exploration Rover',
         title: 'Curiosity - Mars Exploration Rover',
         title_link: 'http://mars.nasa.gov/msl/mission/overview/',
         text: 'The "Curiosity" Mars Exploration Rover (MER) is the most recent rover sent to explore Mars. Curiosity was designed to assess whether Mars ever had an environment able to support small life forms called microbes.', // eslint-disable-line
@@ -231,6 +234,7 @@ const getRoversInfoHelp = () => {
         ]
       },
       {
+        fallback: 'Opportunity - Mars Exploration Rover',
         title: 'Opportunity - Mars Exploration Rover',
         title_link: 'http://www.jpl.nasa.gov/missions/details.php?id=5909',
         text: 'The "Opportunity" Mars Exploration Rover (MER) was the second of two rovers launched in 2003 to explore Mars. Opportunity was launched on July 7, 2003 and landed on Mars on January 25, 2004.\nThe original mission plan was 90 days, but Opportunity is still active and returning data to NASA.', // eslint-disable-line
@@ -264,6 +268,7 @@ const getRoversInfoHelp = () => {
         ]
       },
       {
+        fallback: 'Spirit - Mars Exploration Rover',
         title: 'Spirit - Mars Exploration Rover',
         title_link: 'http://www.jpl.nasa.gov/missions/details.php?id=5917',
         text: 'The "Spirit" Mars Exploration Rover (MER) was launched in 2003 to explore the surface of Mars. Spirit was launched on June 10, 2003 and landed on Mars on January 4, 2004.\nThe original mission plan was 90 days, but Spirit far outlasted that.\nNASA ended the mission on May 25, 2011 after the rover became embedded in soft soil.', // eslint-disable-line

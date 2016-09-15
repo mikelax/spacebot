@@ -55,6 +55,7 @@ const getHelpResponse = () => {
     response_type: 'ephemeral',
     attachments: [
       {
+        fallback: 'Spacebot helps you find interesting images from NASA. There are several commands to interact with',
         pretext: 'Welcome to the spacebot Slack Bot. spacebot helps you find interesting images from NASA',
         text: `There are several commands you can use to find images from various NASA APIs\n
           /spaecbot help - Displays this help message\n
