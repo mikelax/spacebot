@@ -135,6 +135,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #footer {
   font-size: 10px;
+  margin-top: 25px;
 }
 
 dt {
@@ -257,4 +258,67 @@ a {
 
 .cf {
   zoom:1;
+}
+
+.success {
+  border: 1px solid;
+  background-color: #DFF2BF;
+  color: #000000;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+form#contact fieldset {
+  padding: 10px 20px 20px 20px;
+  margin: 0 auto;
+  border: 0;
+  width: 290px;
+  text-align: left;
+  border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -moz-box-shadow: 0px 0px 10px #d3d3d3;
+  -webkit-box-shadow: 0px 2px 10px #d3d3d3;
+  box-shadow: 0px 0px 10px #d3d3d3;
+}
+
+form#contact input[type="text"], input[type="url"],
+input[type="email"], input[type="tel"], textarea {
+  margin: 3px 0 0 0;
+  padding: 6px;
+  width: 275px;
+  border: 1px solid #ccc;
+    background: -webkit-gradient(linear, left top, left 15, from(#FFFFFF), color-stop(4%, #f4f4f4), to(#FFFFFF));
+    background: -moz-linear-gradient(top, #FFFFFF, #f4f4f4 1px, #FFFFFF 15px);
+}
+
+form#contact input:invalid {
+  border: 2px solid #ff0000;
+}
+
+form#contact textarea {
+  height: 150px;
+}
+
+form#contact label {
+  display: block;
+  color: #666;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+form#contact label.error {
+  width: 270px;
+  margin: 3px 0 0 0;
+  display: block;
+  color: #cf0101;
+  font-size: 11px;
+  text-align: right;
+}
+
+form#contact .placeholder {
+  color: #aaa;
 }

@@ -39,6 +39,13 @@
                 "logs:PutLogEvents"
               ],
               "Resource": "arn:aws:logs:${region}:*:*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sns:Publish"
+              ],
+              "Resource": "arn:aws:sns:${region}:*:spacebot-contactform-*"
             }
           ]
         },
