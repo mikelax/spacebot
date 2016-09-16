@@ -37,21 +37,20 @@ const getAPODPageUrl = (date) => {
 };
 
 const getAPODResponse = (params) => Bluebird.try(() => {
-  let date;
+  // Assign a default date of today to serve as default
+  let date = moment();
+  // Account for lambda running in UTC but nasa APIs in ET (prevents end of day calls to next day)
+  date = date.utcOffset(-4);
+
   if (_.size(params) > 0) {
     if (_.lowerCase(params[0]) === 'random') {
       // Generate random date here
       date = moment().subtract(Math.floor((Math.random() * 7300) + 1), 'days');
-    } else if (_.lowerCase(params[0]) === 'today') {
-      date = moment();
-    } else {
-      date = moment(params[0]).isValid() ? moment(params[0]) : moment();
+    } else if (moment(params[0]).isValid()) {
+      date = moment(params[0]);
     }
-  } else {
-    date = moment();
   }
-  // Account for lambda running in UTC but nasa APIs in ET
-  date = date.utcOffset(-4);
+
   console.log(`The APODResponse date is ${date.format('YYYY-MM-DD')}`);
 
   return getAPOD(date)
