@@ -27,7 +27,7 @@
         },
         "default": {
           "statusCode": "204",
-          "responseParameters": {},
+          "responseParameters": "$${corsResponseParameters}",
           "responseModels": {
             "application/json;charset=UTF-8": "Empty"
           },
@@ -52,11 +52,7 @@
       "responses": {
         "default": {
           "statusCode": "200",
-          "responseParameters": {
-            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,Cache-Control,X-Requested-With'",
-            "method.response.header.Access-Control-Allow-Methods": "'*'",
-            "method.response.header.Access-Control-Allow-Origin": "'*'"
-          },
+          "responseParameters": "$${corsResponseParameters}",
           "responseModels": {},
           "responseTemplates": {
             "application/json": ""
