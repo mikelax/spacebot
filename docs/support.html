@@ -77,11 +77,14 @@
       </section>
     </div>
     <script type="text/javascript">
-      $('contact').submit(function(event) {
+      $('#contact').submit(function(event) {
+        event.preventDefault();
+
         $.ajax({
           method: $('#contact').attr('method'),
           url: $('#contact').attr('action'),
-          crossDomain: true
+          crossDomain: true,
+          data: $('#contact').serialize()
         })
         .done(function (resp) {
           $('#formSuccess').show();
