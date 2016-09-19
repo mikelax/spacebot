@@ -20,5 +20,6 @@
     //Couple of my overrides
     "comma-dangle": [2, "never"],
     "max-len": [2, 120, 4, {"ignoreComments": true, "ignoreUrls": true}],
+    "no-param-reassign": [2, { "props": false }]
   }
 }
