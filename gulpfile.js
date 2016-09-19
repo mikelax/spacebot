@@ -10,10 +10,10 @@ function errorHandler(error) {
 }
 
 // Top level tasks
-gulp.task('test', 'Run Unit Tests', (cb) => gulp
+gulp.task('test', 'Run Unit Tests', ['lint'], (cb) => gulp
   .src('test/*.spec.js', { read: false })
   .pipe(mocha({
-    reporter: 'nyan',
+    reporter: 'spec',
     ui: 'bdd',
     timeout: 1000
   }))

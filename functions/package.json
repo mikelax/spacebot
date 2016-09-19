@@ -2,8 +2,7 @@
   "name": "spacebot-functions",
   "version": "0.1.0",
   "description": "Spacebot lambda functions",
-  "scripts": {
-  },
+  "scripts": {},
   "license": "MIT",
   "repository": {
     "type": "git",
