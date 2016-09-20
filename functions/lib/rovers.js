@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const Bluebird = require('bluebird');
 const moment = require('moment');
+const NoPhotosError = require('./errors').NoPhotosError;
 const request = require('request-promise');
 
 const ROVERS = {
@@ -136,13 +137,18 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
     qs: qs,
     json: true
   })
-  .catch((err) => {
-    console.log('Error requesting NASA Mars Photos with qs', err, err.stack);
-    throw err;
-  })
   .then(photos => {
     console.log('Mars Photos in getMarsRoverPhotos function is', photos);
     return photos;
+  })
+  .catch((err) => {
+    // check for 400 response and errors of: No Photos Found, throw specific error
+    if (err.statusCode === 400 && err.error.errors === 'No Photos Found') {
+      console.log('Received 400 error in getMarsRoverPhotos function');
+      throw new NoPhotosError('OAuth ok response is false');
+    }
+    console.log('Error requesting NASA Mars Photos with qs', err, err.stack);
+    throw err;
   });
 };
 
@@ -342,11 +348,19 @@ const getMarsRoversResponse = (params) => Bluebird.try(() => {
           });
           return resp;
         })
+        .catch(NoPhotosError, () => (
+          {
+            response_type: 'ephemeral',
+            text: `There are no photos available from ${roverName} with the given parameters. Try specifying a different camera or date. Also ensure the camera is available on the given rover. Use the \`rovers cameras list\` command to double check.\nCommand entered: \`${_.map(params).join(' ')}\``,  // eslint-disable-line max-len
+            mrkdwn: ['text']
+          }
+        ))
         .catch(err => {
           console.log('Error parsing response from getMarsRoverPhotos', err, err.stack);
           return {
             response_type: 'ephemeral',
-            text: 'There was an error with your last request, please adjust the parameters and try again. Try to check the rover name, camera name is available on the rover, and the date or Sol number is available for the given rover.' // eslint-disable-line max-len
+            text: `There was an error with your last request, please adjust the parameters and try again. The most likely cause is a typo in the Rover Name. Also ensure the camera name is available on the rover, and the date or Sol number is valid for the given rover.\nCommand entered: \`${_.map(params).join(' ')}\``, // eslint-disable-line max-len
+            mrkdwn: ['text']
           };
         });
     } else {
