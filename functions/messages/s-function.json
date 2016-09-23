@@ -1,0 +1,58 @@
+{
+  "name": "messages",
+  "runtime": "nodejs4.3",
+  "description": "Slack Interactive Messages Handler",
+  "customName": false,
+  "customRole": false,
+  "handler": "messages/handler.handler",
+  "timeout": 6,
+  "memorySize": 128,
+  "authorizer": {},
+  "custom": {
+    "excludePatterns": []
+  },
+  "endpoints": [
+    {
+      "path": "slack/messages",
+      "method": "POST",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/x-www-form-urlencoded": {
+          "body": "$input.body",
+          "pathParams" : "$input.params().path",
+          "queryParams" : "$input.params().querystring"
+        }
+      },
+      "responses": {
+        "400": {
+          "statusCode": "400"
+        },
+        "default": {
+          "statusCode": "200",
+          "responseParameters": {},
+          "responseModels": {
+            "application/json;charset=UTF-8": "Empty"
+          },
+          "responseTemplates": {
+            "application/json;charset=UTF-8": ""
+          }
+        }
+      }
+    }
+  ],
+  "events": [],
+  "environment": {
+    "SLACK_TOKEN": "${slackToken}",
+    "SERVERLESS_PROJECT": "${project}",
+    "SERVERLESS_STAGE": "${stage}",
+    "SERVERLESS_REGION": "${region}"
+  },
+  "vpc": {
+    "securityGroupIds": [],
+    "subnetIds": []
+  }
+}
