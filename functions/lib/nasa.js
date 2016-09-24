@@ -66,7 +66,16 @@ const getAPODResponse = (params) => Bluebird.try(() => {
           image_url: apod.url,
           text: apod.explanation,
           footer: `APOD ${apod.date}`,
-          color: '#0B3D91'
+          color: '#0B3D91',
+          callback_id: 'apod',
+          actions: [
+            {
+              name: 'favorite',
+              text: 'Save as Favorite',
+              type: 'button',
+              value: `${date.format('YYYYMMDD')}`
+            }
+          ]
         },
         {
           title: 'Open the HD Image',

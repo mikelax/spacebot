@@ -45,7 +45,17 @@
               "Action": [
                 "sns:Publish"
               ],
-              "Resource": "arn:aws:sns:${region}:*:spacebot-contactform-*"
+              "Resource": "arn:aws:sns:${region}:*:${project}-contactform-*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:Query",
+                "dynamodb:Scan"
+              ],
+              "Resource": "arn:aws:dynamodb:${region}:*:table/${project}-*"
             }
           ]
         },
@@ -54,6 +64,59 @@
             "Ref": "IamRoleLambda"
           }
         ]
+      }
+    },
+    "FavoritesTable": {
+      "Type" : "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "${project}-favorites-${stage}",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "slackUserId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "mediaId",
+            "AttributeType": "N"
+          },
+          {
+            "AttributeName": "service",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "slackUserId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "mediaId",
+            "KeyType": "RANGE"
+          }
+        ],
+        "LocalSecondaryIndexes": [
+          {
+            "IndexName": "userFavoritesByType",
+            "KeySchema": [
+              {
+                "AttributeName": "slackUserId",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "service",
+                "KeyType": "RANGE"
+              }
+            ],
+            "Projection": {
+              "NonKeyAttributes": ["mediaId"],
+              "ProjectionType": "INCLUDE"
+            }
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        }
       }
     }
   },
@@ -65,6 +128,12 @@
           "IamRoleLambda",
           "Arn"
         ]
+      }
+    },
+    "FavoritesTableName": {
+      "Description": "Favorites Table",
+      "Value": {
+        "Ref": "FavoritesTable"
       }
     }
   }
