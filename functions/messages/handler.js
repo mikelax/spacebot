@@ -41,7 +41,8 @@ module.exports.handler = function messages(event, context, cb) {
 
   slack.verifyToken(messagePayload.token)
   .then(() =>
-    saveFavorite(messagePayload.user.id, messagePayload.callback_id, _.head(messagePayload.actions).value, messagePayload)
+    saveFavorite(messagePayload.user.id, messagePayload.callback_id,
+      _.head(messagePayload.actions).value, messagePayload)
   )
   .then((resp) => {
     console.log('The response after saveFavorite call is', resp);
@@ -60,6 +61,6 @@ module.exports.handler = function messages(event, context, cb) {
       text: 'Error! There was an error saving your favorite. Please try again or contact support.',
       replace_original: false
     };
-    cb(slackResponse);
+    cb(null, slackResponse);
   });
 };
