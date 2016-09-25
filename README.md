@@ -1,4 +1,5 @@
 # What is SpaceBot - The Slack Bot for Space
+[![Build Status](https://travis-ci.org/mikelax/spacebot.svg?branch=master)](https://travis-ci.org/mikelax/spacebot)
 [![David](https://img.shields.io/david/mikelax/spacebot.svg?maxAge=2592000)](https://david-dm.org/mikelax/spacebot)
 [![license](https://img.shields.io/badge/license-Apache--2-blue.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0)
 

@@ -4,7 +4,7 @@
   "description": "spacebot - A Slack Bot for exploring NASA images.",
   "scripts": {
     "pretest": "npm install",
-    "test": "gulp lint"
+    "test": "gulp test"
   },
   "keywords": [
     "slackbot",
