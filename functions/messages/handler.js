@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
 const moment = require('moment');
 const qs = require('qs');
 const slack = require('../lib/slack');

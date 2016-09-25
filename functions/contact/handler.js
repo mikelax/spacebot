@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
 const qs = require('qs');
 
 AWS.config.region = process.env.SERVERLESS_REGION; // HACK as aws-sdk doesn't read in region automatically :(
