@@ -6,7 +6,7 @@ const request = require('request-promise');
 
 const InvalidTokenError = require('./errors').InvalidTokenError;
 
-const verifyToken = (requestToken) => Bluebird.try(() => {
+const verifyToken = requestToken => Bluebird.try(() => {
   const TOKEN = process.env.SLACK_TOKEN || 'token';
 
   if (TOKEN !== requestToken) {
@@ -22,7 +22,7 @@ const verifyToken = (requestToken) => Bluebird.try(() => {
  * @param {string} [event.error] - An error from the OAuth process
  * @param {string} [event.state] - String passed through from initial OAuth request
  */
-const exchangeCodeForToken = (event) =>
+const exchangeCodeForToken = event =>
   Bluebird.try(() => {
     if (event.error) {
       throw new OAuthError('OAuth Request rejected by user');
@@ -38,7 +38,7 @@ const exchangeCodeForToken = (event) =>
     },
     json: true
   }))
-  .then(resp => {
+  .then((resp) => {
     console.log('Response from Slack oauth.access', resp);
     if (resp.ok === false) {
       throw new OAuthError('OAuth ok response is false');

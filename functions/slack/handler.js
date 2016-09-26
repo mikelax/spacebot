@@ -29,10 +29,10 @@ module.exports.slash = function slash(event, context, cb) {
     const params = _.tail(input);
     return { command: command, params: params };
   })
-  .then((command) => Bluebird.try(() =>
+  .then(command => Bluebird.try(() =>
     COMMANDS[command.command](command.params)
   ))
-  .then(resp => {
+  .then((resp) => {
     cb(null, resp);
   })
   .catch(e => cb(errorToJsonAndLog(e)));

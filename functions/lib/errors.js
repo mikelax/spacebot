@@ -6,7 +6,7 @@ const InvalidTokenError = createError('InvalidTokenError');
 const OAuthError = createError('OAuthError');
 const NoPhotosError = createError('NoPhotosError');
 
-const errorToJsonAndLog = e => {
+const errorToJsonAndLog = (e) => {
   console.log('Logging Error: ', e, e.stack);
 
   return JSON.stringify({
