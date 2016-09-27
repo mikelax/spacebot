@@ -82,7 +82,7 @@ const CAMERAS = {
  * @return {number} - The Sol number for the given rover
  */
 const convertDatetoSol = (roverName, dateOrSol) => {
-  const rover = _.find(ROVERS, (o) =>
+  const rover = _.find(ROVERS, o =>
     _.lowerCase(o.name) === _.lowerCase(roverName)
   );
   let sol;
@@ -137,7 +137,7 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
     qs: qs,
     json: true
   })
-  .then(photos => {
+  .then((photos) => {
     console.log('Mars Photos in getMarsRoverPhotos function is', photos);
     return photos;
   })
@@ -314,7 +314,7 @@ const getRoversInfoHelp = () => {
   return resp;
 };
 
-const getMarsRoversResponse = (params) => Bluebird.try(() => {
+const getMarsRoversResponse = params => Bluebird.try(() => {
   // try to parse parameters
   let command;
   if (_.size(params) > 0) {
@@ -332,13 +332,13 @@ const getMarsRoversResponse = (params) => Bluebird.try(() => {
       const sol = convertDatetoSol(roverName, date);
 
       command = getMarsRoverPhotos(roverName, cameraName, sol)
-        .then(photos => {
+        .then((photos) => {
           const resp = { response_type: 'in_channel', attachments: [] };
 
           const subset = _.chain(photos.photos)
             .sampleSize(7)
             .value();
-          _.each(subset, photo => {
+          _.each(subset, (photo) => {
             const item = {
               text: `${photo.camera.name} - ${photo.camera.full_name}.\n${photo.earth_date} / Sol ${photo.sol}`,
               image_url: photo.img_src,
@@ -355,7 +355,7 @@ const getMarsRoversResponse = (params) => Bluebird.try(() => {
             mrkdwn: ['text']
           }
         ))
-        .catch(err => {
+        .catch((err) => {
           console.log('Error parsing response from getMarsRoverPhotos', err, err.stack);
           return {
             response_type: 'ephemeral',

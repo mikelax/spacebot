@@ -5,7 +5,7 @@ const gutil = require('gulp-util');
 const mocha = require('gulp-mocha');
 
 // Top level tasks
-gulp.task('test', 'Run Unit Tests', ['lint'], (cb) => gulp
+gulp.task('test', 'Run Unit Tests', ['lint'], cb => gulp
   .src('test/*.spec.js', { read: false })
   .pipe(mocha({
     reporter: 'spec',

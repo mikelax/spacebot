@@ -8,7 +8,7 @@ const should = require('chai').should();
 chai.use(require('chai-things'));
 chai.use(require('chai-as-promised'));
 
-const verifyHelp = (respPromise) =>
+const verifyHelp = respPromise =>
   respPromise
     .should.be.fulfilled
     .then((response) => {

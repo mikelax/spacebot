@@ -31,7 +31,7 @@ module.exports.handler = function contact(event, context, cb) {
   .then(() => {
     cb(null, '');
   })
-  .catch(err => {
+  .catch((err) => {
     console.log('Error submitting contact form', err, err.stack);
     err.status = 400;
     cb(JSON.stringify(err));

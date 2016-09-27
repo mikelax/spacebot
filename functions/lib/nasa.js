@@ -5,7 +5,7 @@ const Bluebird = require('bluebird');
 const moment = require('moment');
 const request = require('request-promise');
 
-const getAPOD = (date) =>
+const getAPOD = date =>
   request({
     uri: 'https://api.nasa.gov/planetary/apod',
     qs: {
@@ -19,7 +19,7 @@ const getAPOD = (date) =>
     console.log('Error requesting NASA APOD with qs', err, err.stack);
     throw err;
   })
-  .then(apod => {
+  .then((apod) => {
     console.log('APOD in getAPOD function is', apod);
     return apod;
   });
@@ -36,7 +36,7 @@ const getAPODPageUrl = (date) => {
   return `http://apod.nasa.gov/apod/ap${year}${month}${day}.html`;
 };
 
-const getAPODResponse = (params) => Bluebird.try(() => {
+const getAPODResponse = params => Bluebird.try(() => {
   // Assign a default date of today to serve as default
   let date = moment();
   // Account for lambda running in UTC but nasa APIs in ET (prevents end of day calls to next day)
@@ -54,7 +54,7 @@ const getAPODResponse = (params) => Bluebird.try(() => {
   console.log(`The APODResponse date is ${date.format('YYYY-MM-DD')}`);
 
   return getAPOD(date)
-  .then(apod => {
+  .then((apod) => {
     const apodPageUrl = getAPODPageUrl(apod.date);
     const resp = {
       response_type: 'in_channel',
