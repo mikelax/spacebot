@@ -9,5 +9,6 @@ describe('NASA (APOD)', () => {
     it('should return the APOD with no params');
     it('should return the APOD with a specific date');
     it('should return the APOD with a param of random');
+    it('should return the APOD with a video response'); // 2016-09-26 for example
   });
 });
