@@ -63,7 +63,6 @@ const getAPODResponse = params => Bluebird.try(() => {
           fallback: `${apod.title} - ${apodPageUrl}`,
           title: apod.title,
           title_link: apodPageUrl,
-          image_url: apod.url,
           text: apod.explanation,
           footer: `APOD ${apod.date}`,
           color: '#0B3D91',
@@ -76,14 +75,24 @@ const getAPODResponse = params => Bluebird.try(() => {
               value: `${date.format('YYYYMMDD')}`
             }
           ]
-        },
-        {
-          title: 'Open the HD Image',
-          title_link: apod.hdurl,
-          color: '#FC3D21'
         }
       ]
     };
+
+    // Add the image vs. video specific attributes
+    if (apod.media_type === 'image') {
+      resp.attachments[0].image_url = apod.url;
+      resp.attachments.push({
+        title: 'Open the HD Image',
+        title_link: apod.hdurl,
+        color: '#FC3D21'
+      });
+    } else if (apod.media_type === 'video') {
+      // hack to get Slack to unfurl youtube link as it doesn't handle youtube.com/embed/:id links
+      resp.text = _.replace(apod.url, 'youtube.com/embed/', 'youtube.com/watch?v=')
+        .replace('?rel=0', '');
+    }
+
     return resp;
   });
 });
