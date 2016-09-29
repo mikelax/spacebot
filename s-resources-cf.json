@@ -66,6 +66,36 @@
         ]
       }
     },
+    "OAuthTokensTable": {
+      "Type" : "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "${project}-oauthtokens-${stage}",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "slackUserId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "teamId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "slackUserId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "teamId",
+            "KeyType": "RANGE"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        }
+      }
+    },
     "FavoritesTable": {
       "Type" : "AWS::DynamoDB::Table",
       "Properties": {
@@ -134,6 +164,12 @@
       "Description": "Favorites Table",
       "Value": {
         "Ref": "FavoritesTable"
+      }
+    },
+    "OAuthTokensTableName": {
+      "Description": "OAuth Tokens Table",
+      "Value": {
+        "Ref": "OAuthTokensTable"
       }
     }
   }
