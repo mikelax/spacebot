@@ -142,6 +142,7 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
     return photos;
   })
   .catch((err) => {
+    console.log(`Params causing err in getMarsRoverPhotos, rover is ${rover}, camera is ${camera}, sol is ${sol}`);
     // check for 400 response and errors of: No Photos Found, throw specific error
     if (err.statusCode === 400 && err.error.errors === 'No Photos Found') {
       console.log('Received 400 error in getMarsRoverPhotos function');
@@ -150,6 +151,62 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
     console.log('Error requesting NASA Mars Photos with qs', err, err.stack);
     throw err;
   });
+};
+
+/**
+ * Given the param values extract the rover name to use for given command
+ * @param {array} List of params for the given slash command. First "command" has been removed
+ * @return {string} The Rover Name as a string
+ */
+const parseRoverName = (params) => {
+  const result = _(ROVERS).chain().map(val =>
+    _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.name)))
+  ).compact()
+  .value();
+
+  // default to Curiosity if no rover was found in param list
+  if (!result.length) {
+    result.push(ROVERS.Curiosity.name);
+  }
+
+  return result[0];
+};
+
+/**
+ * Given the param values extract the camera name to use for given command
+ * @param {array} List of params for the given slash command. First "command" has been removed
+ * @return {string} The Camera Name or 'all' as a string
+ */
+const parseCameraName = (params) => {
+  const result = _(CAMERAS).chain().map(val =>
+    _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.code)))
+  ).compact()
+  .value();
+
+  if (!result.length) {
+    result.push('all');
+  }
+
+  return result[0];
+};
+
+/**
+ * Given the parma values, extract an earth date or Sol number
+ * @param {array} List of params for the given slash command. First "command" has been removed
+ * @return {string} The Sol number or earth date in YYYY-MM-DD format.
+ *  If no param provided then this will return an earth date vaylue of two days ago
+ */
+const parseDate = (params) => {
+  // Account for lambda running in UTC but nasa APIs in ET (prevents end of day calls to next day)
+  let dateValue = moment().utcOffset(-4).subtract(2, 'days').format('YYYY-MM-DD');
+
+  _.forEachRight(params, (val) => {
+    if (_.isInteger(val) || moment(val, 'YYYY-MM-DD').isValid()) {
+      dateValue = val;
+    }
+  });
+
+  return dateValue;
 };
 
 const getRoverCameraHelp = () => {
@@ -325,10 +382,10 @@ const getMarsRoversResponse = params => Bluebird.try(() => {
     } else if (_.lowerCase(params[0]) === 'cameras' && _.lowerCase(params[1]) === 'list') {
       command = getRoverCameraHelp();
     } else if (_.lowerCase(params[0]) === 'photos') {
-      const roverName = params[1] || ROVERS.Curiosity.name;
-      const cameraName = params[2] || 'all';
+      const roverName = parseRoverName(_.tail(params));
+      const cameraName = parseCameraName(_.tail(params));
       // API appears to lag by about two days with pictures that are available
-      const date = params[3] || moment().subtract(2, 'days').format('YYYY-MM-DD');
+      const date = parseDate(_.tail(params));
       const sol = convertDatetoSol(roverName, date);
 
       command = getMarsRoverPhotos(roverName, cameraName, sol)
