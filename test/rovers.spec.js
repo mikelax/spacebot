@@ -72,11 +72,14 @@ describe('Rovers sub-command', () => {
       it('should return the no photos error for invalid camera name');
       it('should return the no photos error for invalid rover / Sol combo');
       it('should return the general error for invalid rover name');
-      it('should return photos with no parameters specified');
+      it('should return photos for Curiosity with no parameters specified');
       it('should return photos with just rover specified');
       it('should return photos with rover and camera specified');
       it('should return photos with rover, camera, and date specified');
       it('should return photos with rover, camera, and Sol specified');
+      it('should return photos for Curiosity with just camera and date specified');
+      it('should return photos for Curiosity with just camera specified');
+      it('should return photos for Curiosity with just date specified');
     });
   });
 });
