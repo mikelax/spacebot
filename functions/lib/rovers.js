@@ -198,7 +198,8 @@ const parseCameraName = (params) => {
  */
 const parseDate = (params) => {
   // Account for lambda running in UTC but nasa APIs in ET (prevents end of day calls to next day)
-  let dateValue = moment().utcOffset(-4).subtract(2, 'days').format('YYYY-MM-DD');
+  // Also account for (usual) lag between current Sol and when pictures are available through NASA API
+  let dateValue = moment().utcOffset(-4).subtract(3, 'days').format('YYYY-MM-DD');
 
   _.forEachRight(params, (val) => {
     if (_.isInteger(val) || moment(val, 'YYYY-MM-DD').isValid()) {
@@ -258,7 +259,6 @@ const getRoversInfoHelp = () => {
   const curiositySol = convertDatetoSol(ROVERS.Curiosity.name);
   const opportunitySol = convertDatetoSol(ROVERS.Opportunity.name);
 
-  /* eslint-disable max-len */
   const resp = {
     response_type: 'ephemeral',
     attachments: [
@@ -366,7 +366,6 @@ const getRoversInfoHelp = () => {
       }
     ]
   };
-  /* eslint-enable max-len */
 
   return resp;
 };
