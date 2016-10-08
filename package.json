@@ -37,7 +37,9 @@
     "gulp-eslint": "^3.0.1",
     "gulp-help": "^1.6.1",
     "gulp-mocha": "^3.0.1",
-    "gulp-util": "^3.0.7"
+    "gulp-util": "^3.0.7",
+    "joi": "^9.1.0",
+    "supertest": "^2.0.0"
   },
   "dependencies": {
     "serverless-plugin-autoinstall": "0.5.5"
