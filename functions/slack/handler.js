@@ -11,12 +11,8 @@ module.exports.slash = function slash(event, context, cb) {
   console.log(slackPayload);
 
   Bluebird.try(() => slack.verifyKeepAliveOrSSLCheck(slackPayload))
-    .then(() =>
-      slack.verifyToken(slackPayload.token)
-    )
-    .then(() =>
-      slack.extractSubCommand(slackPayload)
-    )
+    .then(() => slack.verifyToken(slackPayload.token))
+    .then(() => slack.extractSubCommand(slackPayload))
     .then(command => Bluebird.try(() =>
       slack.COMMANDS[command.command](command.params)
     ))

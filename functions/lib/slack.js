@@ -50,9 +50,12 @@ const verifyToken = requestToken => Bluebird.try(() => {
   }
 });
 
+/**
+ * Checks for an empty body or a body with ssl_check=1. These will be used by cron keep alive
+ * and potential ssl status checks from slack
+ * @param {Object} payload - Object representation of slack request body
+ */
 const verifyKeepAliveOrSSLCheck = (payload) => {
-  console.log(`The payload value is ${payload}`);
-  console.log(`The payload ssl_check value is ${payload.ssl_check}`);
   if (_.isEmpty(payload) || payload.ssl_check === '1') {
     throw new EmptyEventError('SSL Check or emtpy event request');
   }
@@ -109,10 +112,10 @@ const exchangeCodeForToken = event =>
   });
 
 module.exports = {
-  COMMANDS: COMMANDS,
-  exchangeCodeForToken: exchangeCodeForToken,
-  extractSubCommand: extractSubCommand,
-  getHelpResponse: getHelpResponse,
-  verifyKeepAliveOrSSLCheck: verifyKeepAliveOrSSLCheck,
-  verifyToken: verifyToken
+  COMMANDS,
+  exchangeCodeForToken,
+  extractSubCommand,
+  getHelpResponse,
+  verifyKeepAliveOrSSLCheck,
+  verifyToken
 };

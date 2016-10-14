@@ -33,7 +33,7 @@ describe('Slack Lib', () => {
       command.should.have.a.property('command').that.is.a('string').that.equals('apod');
       command.should.have.a.property('params').that.is.an('array').with.lengthOf(1);
     });
-    it('should return rovers command for apod string', () => {
+    it('should return rovers command for rovers string', () => {
       const command = slack.extractSubCommand({ text: 'rovers photos' });
       command.should.have.a.property('command').that.is.a('string').that.equals('rovers');
       command.should.have.a.property('params').that.is.an('array').with.lengthOf(1);
