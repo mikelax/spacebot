@@ -38,7 +38,16 @@
       }
     }
   ],
-  "events": [],
+  "events": [
+    {
+      "name": "keepAlivePing",
+      "type": "schedule",
+      "config": {
+        "schedule": "rate(5 minutes)",
+        "enabled": true
+      }
+    }
+  ],
   "environment": {
     "SLACK_TOKEN": "${slackToken}",
     "NASA_API_KEY": "${nasaApiKey}",
