@@ -2,9 +2,10 @@
 
 const createError = require('create-error');
 
+const EmptyEventError = createError('EmptyEventError');
 const InvalidTokenError = createError('InvalidTokenError');
-const OAuthError = createError('OAuthError');
 const NoPhotosError = createError('NoPhotosError');
+const OAuthError = createError('OAuthError');
 
 const errorToJsonAndLog = (e) => {
   console.log('Logging Error: ', e, e.stack);
@@ -16,8 +17,9 @@ const errorToJsonAndLog = (e) => {
 };
 
 module.exports = {
+  EmptyEventError,
   errorToJsonAndLog,
   InvalidTokenError,
-  OAuthError,
-  NoPhotosError
+  NoPhotosError,
+  OAuthError
 };
