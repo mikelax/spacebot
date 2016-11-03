@@ -48,6 +48,7 @@
   "environment": {
     "SLACK_CLIENT_ID": "${slackClientId}",
     "SLACK_CLIENT_SECRET": "${slackClientSecret}",
+    "SLACK_API_URL": "${slackApiUrl}",
     "OAUTH_SUCCESS_URL": "${oauthSuccessUrl}",
     "OAUTH_ERROR_URL": "${oauthErrorUrl}",
     "SERVERLESS_PROJECT": "${project}",
