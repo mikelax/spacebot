@@ -2,7 +2,7 @@
 
 const Bluebird = require('bluebird');
 const EmptyEventError = require('../lib/errors').EmptyEventError;
-const errorToJsonAndLog = require('../lib/errors').errorToJsonAndLog;
+const generateSlackErrorResponse = require('../lib/errors').generateSlackErrorResponse;
 const qs = require('qs');
 const slack = require('../lib/slack');
 
@@ -22,5 +22,5 @@ module.exports.slash = function slash(event, context, cb) {
     .catch(EmptyEventError, () => {
       cb(null, 'ACK');
     })
-    .catch(e => cb(errorToJsonAndLog(e)));
+    .catch(e => cb(null, generateSlackErrorResponse(e)));
 };

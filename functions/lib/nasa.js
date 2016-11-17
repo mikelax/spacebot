@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const Bluebird = require('bluebird');
+const InvalidDateError = require('./errors').InvalidDateError;
 const moment = require('moment');
 const request = require('request-promise');
 
@@ -52,6 +53,11 @@ const getAPODResponse = params => Bluebird.try(() => {
   }
 
   console.log(`The APODResponse date is ${date.format('YYYY-MM-DD')}`);
+
+  // Check that our date value is supported by APOD API
+  if (moment('1995-06-16').isAfter(date)) {
+    throw new InvalidDateError('Date must be between June 16, 1995 and today');
+  }
 
   return getAPOD(date)
   .then((apod) => {
