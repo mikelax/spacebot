@@ -31,7 +31,7 @@ const generateSlackErrorResponse = (e) => {
   };
 
   return errorResponse;
-}
+};
 
 module.exports = {
   EmptyEventError,
