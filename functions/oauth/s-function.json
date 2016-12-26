@@ -5,8 +5,8 @@
   "customName": false,
   "customRole": false,
   "handler": "oauth/handler.oauth",
-  "timeout": 6,
-  "memorySize": 128,
+  "timeout": 15,
+  "memorySize": 256,
   "authorizer": {},
   "custom": {
     "excludePatterns": []
