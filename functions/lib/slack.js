@@ -90,7 +90,7 @@ const exchangeCodeForToken = event =>
     }
   })
   .then(() => request({
-    uri: `${process.env.SLACK_API_RUL}oauth.access`,
+    uri: `${process.env.SLACK_API_URL}oauth.access`,
     method: 'POST',
     form: {
       client_id: process.env.SLACK_CLIENT_ID,
