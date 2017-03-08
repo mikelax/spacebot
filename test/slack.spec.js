@@ -45,7 +45,7 @@ describe('Slack Lib', () => {
       const response = slack.getHelpResponse();
       response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
       response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
-      response.should.have.a.deep.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Slack Bot/);
+      response.should.have.a.deep.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
       response.should.have.a.deep.property('attachments[0].text').that.matches(/Displays this help message/);
       response.should.have.a.deep.property('attachments[0].color', '#0B3D91');
     });
