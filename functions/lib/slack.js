@@ -9,20 +9,28 @@ const OAuthError = require('../lib/errors').OAuthError;
 const request = require('request-promise');
 const rovers = require('./rovers');
 
-const getHelpResponse = () => {
+/**
+ * Get general help usage for bot
+ * @param {Array} params - First element should be the platform the command originated from
+ */
+const getHelpResponse = (params) => {
+  const prefix = _.size(params) > 0 && params[0] === 'teams' ? '@' : '/';
+  // const prefix = platform === 'teams' ? '@' : '/';
+  const text = [];
+  text.push('There are several commands you can use to find images from various NASA APIs');
+  text.push(`${prefix}spacebot help - Displays this help message`);
+  text.push(`${prefix}spacebot apod - Display today's Astronomy Picture of the Day`);
+  text.push(`${prefix}spacebot apod random - Display a random 'Astronomy Picture of the Day`);
+  text.push(`${prefix}spacebot apod date - Display the 'Astronomy Picture of the Day' for the given date. Format is YYYY-MM-DD`); // eslint-disable-line
+  text.push(`${prefix}spacebot rovers help - Display help for commands on Mars rovers, photos and more`);
+
   const response = {
     response_type: 'ephemeral',
     attachments: [
       {
         fallback: 'Spacebot helps you find interesting images from NASA. There are several commands to interact with',
         pretext: 'Welcome to the spacebot Bot. spacebot helps you find interesting images from NASA',
-        text: `There are several commands you can use to find images from various NASA APIs\n
-          /spacebot help - Displays this help message\n
-          /spacebot apod - Display today's Astronomy Picture of the Day\n
-          /spacebot apod random - Display a random 'Astronomy Picture of the Day'\n
-          /spacebot apod date - Display the 'Astronomy Picture of the Day' for the given date. Format is YYYY-MM-DD\n
-          /spacebot rovers help - Display help for commands on Mars rovers, photos and more\n
-          `,
+        text: _.join(text, '\n'),
         color: '#0B3D91'
       }
     ]
@@ -36,6 +44,15 @@ const COMMANDS = {
   apod: nasa.getAPODResponse,
   rovers: rovers.getMarsRoversResponse
 };
+
+/**
+ * Extract the platform the command originated from
+ * @param {Object} payload - THe payload for the command
+ * @return {string} The name of the platform
+ */
+const extractPlatform = payload =>
+  (payload.channel_name && payload.team_domain ? 'slack' : 'teams');
+
 
 /**
  * Verify the token received from request matches token registered with slack app
@@ -69,9 +86,11 @@ const verifyKeepAliveOrSSLCheck = (payload) => {
 const extractSubCommand = (payload) => {
   const slackText = _.isString(payload.text) && !_.isUndefined(payload.text)
     ? payload.text.trim() : 'help';
-  const input = _.words(slackText, /[^, ]+/g);
+  const input = _(slackText).words(/[^, ]+/g).without('<at>spacebot</at>', '@spacebot').value();
   const command = _.has(COMMANDS, input[0]) ? input[0] : 'help';
-  const params = _.tail(input);
+  const params = command === 'help' ? [extractPlatform(payload)] : _.tail(input);
+
+  // const platform = extractPlatform(payload);
 
   return { command: command, params: params };
 };
@@ -115,6 +134,7 @@ module.exports = {
   COMMANDS,
   exchangeCodeForToken,
   extractSubCommand,
+  extractPlatform,
   getHelpResponse,
   verifyKeepAliveOrSSLCheck,
   verifyToken
