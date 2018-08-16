@@ -2,8 +2,6 @@ const _ = require('lodash');
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
 const moment = require('moment');
 
-const oauthTokensTable = `${process.env.SERVERLESS_PROJECT}-oauthtokens-${process.env.SERVERLESS_STAGE}`;
-AWS.config.region = process.env.SERVERLESS_REGION; // HACK as aws-sdk doesn't read in region automatically :(
 // Check if environment supports native promises
 if (typeof Promise === 'undefined') {
   AWS.config.setPromisesDependency(require('bluebird'));  // eslint-disable-line global-require
@@ -21,7 +19,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
  */
 const saveOAuthToken = (userId, teamId, accessToken, scope, teamName) => {
   const params = {
-    TableName: oauthTokensTable,
+    TableName: process.env.TOKENS_TABLE_NAME,
     Item: {
       slackUserId: userId,
       teamId: teamId,

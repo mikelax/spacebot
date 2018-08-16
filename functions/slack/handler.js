@@ -15,10 +15,28 @@ module.exports.slash = function slash(event, context, cb) {
       slack.COMMANDS[command.command](command.params)
     ))
     .then((resp) => {
-      cb(null, resp);
+      cb(null, {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(resp)
+      });
     })
     .catch(EmptyEventError, () => {
-      cb(null, 'ACK');
+      cb(null, {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: 'ACK'
+      });
     })
-    .catch(e => cb(null, generateSlackErrorResponse(e)));
+    .catch(e => cb(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(generateSlackErrorResponse(e))
+    }));
 };

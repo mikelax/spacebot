@@ -53,7 +53,7 @@ functions:
       SLACK_TOKEN: ${self:custom.config.SLACK_TOKEN}
       FAVORITES_TABLE_NAME: ${self:custom.favoritesTableName}
   oauth:
-    handler: functions/oauth/handler.handler
+    handler: functions/oauth/handler.oauth
     description: Slack OAuth function
     memorySize: 256
     timeout: 15
@@ -62,13 +62,14 @@ functions:
           path: slack/oauth
           method: get
     environment:
-      SLACK_CLIENT_ID: DD
-      SLACK_CLIENT_SECRET: DD
-      SLACK_API_URL: XX
-      OAUTH_SUCCESS_URL: DD
-      OAUTH_ERROR_URL: DD
+      OAUTH_SUCCESS_URL: ${self:custom.config.OAUTH_SUCCESS_URL}
+      OAUTH_ERROR_URL: ${self:custom.config.OAUTH_ERROR_URL}
+      SLACK_CLIENT_ID: ${self:custom.config.SLACK_CLIENT_ID}
+      SLACK_CLIENT_SECRET: ${self:custom.config.SLACK_CLIENT_SECRET}
+      SLACK_API_URL: ${self:custom.config.SLACK_API_URL}
+      TOKENS_TABLE_NAME: ${self:custom.tokensTableName}
   slack:
-    handler: functions/slack/handler.handler
+    handler: functions/slack/handler.slash
     description: Slack /spacebot slash command function
     events:
       - http:
@@ -79,8 +80,7 @@ functions:
           enabled: true
     environment:
       SLACK_TOKEN: ${self:custom.config.SLACK_TOKEN}
-      NASA_API_KEY: DD
-
+      NASA_API_KEY: ${self:custom.config.NASA_API_KEY}
 
 resources:
   Resources:

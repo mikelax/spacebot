@@ -48,7 +48,13 @@ module.exports.handler = function messages(event, context, cb) {
       replace_original: false
     };
 
-    cb(null, slackResponse);
+    cb(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(slackResponse)
+    });
   })
   .catch((err) => {
     console.log('ERROR saving favorite', err);
@@ -57,6 +63,12 @@ module.exports.handler = function messages(event, context, cb) {
       text: 'Error! There was an error saving your favorite. Please try again or contact support.',
       replace_original: false
     };
-    cb(null, slackResponse);
+    cb(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(slackResponse)
+    });
   });
 };

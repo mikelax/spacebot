@@ -26,11 +26,22 @@ module.exports.handler = function contact(event, context, cb) {
 
   sns.publish(params).promise()
   .then(() => {
-    cb(null, '');
+    cb(null, {
+      statusCode: 204,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   })
   .catch((err) => {
     console.log('Error submitting contact form', err, err.stack);
     err.status = 400;
-    cb(JSON.stringify(err));
+    cb({
+      statusCode: 204,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(err)
+    });
   });
 };
