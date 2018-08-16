@@ -1,5 +1,3 @@
-'use strict';
-
 const dynamodb = require('../lib/dynamodb');
 const errorToJsonAndLog = require('../lib/errors').errorToJsonAndLog;
 const slack = require('../lib/slack');

@@ -1,7 +1,5 @@
 /* eslint consistent-return: [0] */
 
-'use strict';
-
 const Joi = require('joi');
 const supertest = require('supertest');
 

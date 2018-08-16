@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
 const moment = require('moment');

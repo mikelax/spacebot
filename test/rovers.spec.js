@@ -1,5 +1,3 @@
-'use strict';
-
 const chai = require('chai');
 const nasa = require('../functions/lib/nasa');
 const rovers = require('../functions/lib/rovers');

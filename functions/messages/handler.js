@@ -1,13 +1,9 @@
-'use strict';
-
 const _ = require('lodash');
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
 const moment = require('moment');
 const qs = require('qs');
 const slack = require('../lib/slack');
 
-const favoritesTable = `${process.env.SERVERLESS_PROJECT}-favorites-${process.env.SERVERLESS_STAGE}`;
-AWS.config.region = process.env.SERVERLESS_REGION; // HACK as aws-sdk doesn't read in region automatically :(
 // Check if environment supports native promises
 if (typeof Promise === 'undefined') {
   AWS.config.setPromisesDependency(require('bluebird'));  // eslint-disable-line global-require
@@ -19,7 +15,7 @@ const saveFavorite = (userId, service, mediaId, messagePayload) => {
   // TODO add 4th optionalParams obj. then check for values present in it
   // and add additional attributes to the params.Item object before calling putItem
   const params = {
-    TableName: favoritesTable,
+    TableName: process.env.FAVORITES_TABLE_NAME,
     Item: {
       slackUserId: userId,
       mediaId: _.toInteger(mediaId),

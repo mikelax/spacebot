@@ -10,7 +10,6 @@
     "no-console": [0],
 
     // ES6 func not yet implemented in node 4.3
-    "strict": [0],
     // "prefer-rest-params": [0],
     "object-shorthand": [0],
 

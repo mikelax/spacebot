@@ -1,5 +1,3 @@
-'use strict';
-
 const chai = require('chai');
 const errors = require('../functions/lib/errors');
 const should = require('chai').should();

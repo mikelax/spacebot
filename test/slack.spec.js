@@ -1,5 +1,3 @@
-'use strict';
-
 const chai = require('chai');
 const InvalidTokenError = require('../functions/lib/errors').InvalidTokenError;
 const should = require('chai').should();

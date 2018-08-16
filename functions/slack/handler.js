@@ -1,5 +1,3 @@
-'use strict';
-
 const Bluebird = require('bluebird');
 const EmptyEventError = require('../lib/errors').EmptyEventError;
 const generateSlackErrorResponse = require('../lib/errors').generateSlackErrorResponse;

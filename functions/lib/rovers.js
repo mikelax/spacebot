@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const Bluebird = require('bluebird');
 const moment = require('moment');
