@@ -96,13 +96,13 @@ const extractSubCommand = (payload) => {
 /**
  * Exchange OAuth token for access token
  * @param {Object} event - The Lambda event
- * @param {string} event.code - The Token to exchange
- * @param {string} [event.error] - An error from the OAuth process
- * @param {string} [event.state] - String passed through from initial OAuth request
+ * @param {string} [event.queryStringParameters.code] - The Token to exchange
+ * @param {string} [event.queryStringParameters.error] - An error from the OAuth process
+ * @param {string} [event.queryStringParameters.state] - String passed through from initial OAuth request
  */
 const exchangeCodeForToken = event =>
   Bluebird.try(() => {
-    if (event.error) {
+    if (event.queryStringParameters.error) {
       throw new OAuthError('OAuth Request rejected by user');
     }
   })
@@ -112,7 +112,7 @@ const exchangeCodeForToken = event =>
     form: {
       client_id: process.env.SLACK_CLIENT_ID,
       client_secret: process.env.SLACK_CLIENT_SECRET,
-      code: event.code
+      code: event.queryStringParameters.code
     },
     json: true
   }))

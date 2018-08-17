@@ -35,9 +35,9 @@ functions:
   contact:
     handler: functions/contact/handler.handler
     description: Website contact form handler
-    cors: true
     events:
       - http:
+          cors: true
           path: contact
           method: post
     environment:

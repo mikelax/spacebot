@@ -30,7 +30,8 @@ module.exports.handler = function contact(event, context, cb) {
       statusCode: 204,
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: null
     });
   })
   .catch((err) => {
