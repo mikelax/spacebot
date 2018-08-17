@@ -85,35 +85,35 @@ describe('Slack Lib', () => {
       const response = slack.getHelpResponse(['slack']);
       response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
       response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
-      response.should.have.a.deep.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
-      response.should.have.a.deep.property('attachments[0].text').that.matches(/Displays this help message/);
-      response.should.have.a.deep.property('attachments[0].text').that.matches(/\/spacebot help - Displays this help message/); // eslint-disable-line
-      response.should.have.a.deep.property('attachments[0].color', '#0B3D91');
+      response.should.have.a.nested.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
+      response.should.have.a.nested.property('attachments[0].text').that.matches(/Displays this help message/);
+      response.should.have.a.nested.property('attachments[0].text').that.matches(/\/spacebot help - Displays this help message/); // eslint-disable-line
+      response.should.have.a.nested.property('attachments[0].color', '#0B3D91');
     });
     it('Should return slack formatted help response with no param', () => {
       let response = slack.getHelpResponse();
       response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
       response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
-      response.should.have.a.deep.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
-      response.should.have.a.deep.property('attachments[0].text').that.matches(/Displays this help message/);
-      response.should.have.a.deep.property('attachments[0].text').that.matches(/\/spacebot help - Displays this help message/); // eslint-disable-line
-      response.should.have.a.deep.property('attachments[0].color', '#0B3D91');
+      response.should.have.a.nested.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
+      response.should.have.a.nested.property('attachments[0].text').that.matches(/Displays this help message/);
+      response.should.have.a.nested.property('attachments[0].text').that.matches(/\/spacebot help - Displays this help message/); // eslint-disable-line
+      response.should.have.a.nested.property('attachments[0].color', '#0B3D91');
 
       response = slack.getHelpResponse([]);
       response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
       response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
-      response.should.have.a.deep.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
-      response.should.have.a.deep.property('attachments[0].text').that.matches(/Displays this help message/);
-      response.should.have.a.deep.property('attachments[0].text').that.matches(/\/spacebot help - Displays this help message/); // eslint-disable-line
-      response.should.have.a.deep.property('attachments[0].color', '#0B3D91');
+      response.should.have.a.nested.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
+      response.should.have.a.nested.property('attachments[0].text').that.matches(/Displays this help message/);
+      response.should.have.a.nested.property('attachments[0].text').that.matches(/\/spacebot help - Displays this help message/); // eslint-disable-line
+      response.should.have.a.nested.property('attachments[0].color', '#0B3D91');
     });
     it('Should return Teams formatted help response', () => {
       const response = slack.getHelpResponse(['teams']);
       response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
       response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
-      response.should.have.a.deep.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
-      response.should.have.a.deep.property('attachments[0].text').that.matches(/@spacebot help - Displays this help message/); // eslint-disable-line
-      response.should.have.a.deep.property('attachments[0].color', '#0B3D91');
+      response.should.have.a.nested.property('attachments[0].pretext').that.matches(/^Welcome to the spacebot Bot/);
+      response.should.have.a.nested.property('attachments[0].text').that.matches(/@spacebot help - Displays this help message/); // eslint-disable-line
+      response.should.have.a.nested.property('attachments[0].color', '#0B3D91');
     });
   });
 });

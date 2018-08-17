@@ -12,15 +12,15 @@ const verifyHelp = respPromise => respPromise
     response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
     response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
 
-    response.should.have.a.deep.property('attachments[0].fallback')
+    response.should.have.a.nested.property('attachments[0].fallback')
       .that.matches(/^The rovers sub-command returns data and images from Mars rovers/);
-    response.should.have.a.deep.property('attachments[0].pretext')
+    response.should.have.a.nested.property('attachments[0].pretext')
       .that.matches(/If a rover name is omitted then _Curiosity_/);
-    response.should.have.a.deep.property('attachments[0].text')
+    response.should.have.a.nested.property('attachments[0].text')
       .that.matches(/\/spacebot rovers help - Display this command/);
-    response.should.have.a.deep.property('attachments[0].mrkdwn_in')
+    response.should.have.a.nested.property('attachments[0].mrkdwn_in')
       .that.is.an('array').with.lengthOf(2)
-      .that.equals(['text', 'pretext']);
+      .that.deep.equals(['text', 'pretext']);
   });
 
 describe('Rovers sub-command', () => {
