@@ -1,19 +1,16 @@
 const chai = require('chai');
-const InvalidTokenError = require('../functions/lib/errors').InvalidTokenError;
 const should = require('chai').should();
+const { InvalidTokenError } = require('../functions/lib/errors');
 const slack = require('../functions/lib/slack');
 
 chai.use(require('chai-as-promised'));
 
 describe('Slack Lib', () => {
   describe('verifyToken', () => {
-    it('doesn\'t throw an error for correct token', () =>
-      slack.verifyToken('token').should.be.fulfilled
-    );
+    it('doesn\'t throw an error for correct token', () => slack.verifyToken('token').should.be.fulfilled);
 
-    it('throws an error for an invalid token', () =>
-      slack.verifyToken('foo').should.be.rejectedWith(InvalidTokenError)
-    );
+    it('throws an error for an invalid token',
+      () => slack.verifyToken('foo').should.be.rejectedWith(InvalidTokenError));
   });
 
   describe('exchangeCodeForToken', () => {

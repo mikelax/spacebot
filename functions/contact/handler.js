@@ -4,7 +4,7 @@ const qs = require('qs');
 
 // Check if environment supports native promises
 if (typeof Promise === 'undefined') {
-  AWS.config.setPromisesDependency(require('bluebird'));  // eslint-disable-line global-require
+  AWS.config.setPromisesDependency(require('bluebird')); // eslint-disable-line global-require
 }
 
 const sns = new AWS.SNS();
@@ -25,24 +25,24 @@ module.exports.handler = function contact(event, context, cb) {
   };
 
   sns.publish(params).promise()
-  .then(() => {
-    cb(null, {
-      statusCode: 204,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: null
+    .then(() => {
+      cb(null, {
+        statusCode: 204,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: null
+      });
+    })
+    .catch((err) => {
+      console.log('Error submitting contact form', err, err.stack);
+      err.status = 400;
+      cb({
+        statusCode: 204,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(err)
+      });
     });
-  })
-  .catch((err) => {
-    console.log('Error submitting contact form', err, err.stack);
-    err.status = 400;
-    cb({
-      statusCode: 204,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(err)
-    });
-  });
 };

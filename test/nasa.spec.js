@@ -78,7 +78,7 @@ describe('NASA API Validation', () => {
       photos: Joi.array().items(itemSchema)
     });
 
-    it('should validate api response for rovers photos', function callback(done) {  // eslint-disable-line prefer-arrow-callback
+    it('should validate api response for rovers photos', function callback(done) { // eslint-disable-line prefer-arrow-callback
       this.timeout(3000);
       supertest('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos')
         .get(`?sol=1478&api_key=${API_KEY}`)

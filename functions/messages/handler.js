@@ -6,7 +6,7 @@ const slack = require('../lib/slack');
 
 // Check if environment supports native promises
 if (typeof Promise === 'undefined') {
-  AWS.config.setPromisesDependency(require('bluebird'));  // eslint-disable-line global-require
+  AWS.config.setPromisesDependency(require('bluebird')); // eslint-disable-line global-require
 }
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -19,7 +19,7 @@ const saveFavorite = (userId, service, mediaId, messagePayload) => {
     Item: {
       slackUserId: userId,
       mediaId: _.toInteger(mediaId),
-      service: service,
+      service,
       team: messagePayload.team,
       channel: messagePayload.channel,
       user: messagePayload.user,
@@ -36,39 +36,37 @@ module.exports.handler = function messages(event, context, cb) {
   console.log('The messagePayload is', messagePayload);
 
   slack.verifyToken(messagePayload.token)
-  .then(() =>
-    saveFavorite(messagePayload.user.id, messagePayload.callback_id,
-      _.head(messagePayload.actions).value, messagePayload)
-  )
-  .then((resp) => {
-    console.log('The response after saveFavorite call is', resp);
-    const slackResponse = {
-      response_type: 'ephemeral',
-      text: 'Saved! You will be able to browse your favorites soon.',
-      replace_original: false
-    };
+    .then(() => saveFavorite(messagePayload.user.id, messagePayload.callback_id,
+      _.head(messagePayload.actions).value, messagePayload))
+    .then((resp) => {
+      console.log('The response after saveFavorite call is', resp);
+      const slackResponse = {
+        response_type: 'ephemeral',
+        text: 'Saved! You will be able to browse your favorites soon.',
+        replace_original: false
+      };
 
-    cb(null, {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(slackResponse)
+      cb(null, {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(slackResponse)
+      });
+    })
+    .catch((err) => {
+      console.log('ERROR saving favorite', err);
+      const slackResponse = {
+        response_type: 'ephemeral',
+        text: 'Error! There was an error saving your favorite. Please try again or contact support.',
+        replace_original: false
+      };
+      cb(null, {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(slackResponse)
+      });
     });
-  })
-  .catch((err) => {
-    console.log('ERROR saving favorite', err);
-    const slackResponse = {
-      response_type: 'ephemeral',
-      text: 'Error! There was an error saving your favorite. Please try again or contact support.',
-      replace_original: false
-    };
-    cb(null, {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(slackResponse)
-    });
-  });
 };
