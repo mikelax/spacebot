@@ -1,10 +1,8 @@
-'use strict';
-
 const _ = require('lodash');
 const Bluebird = require('bluebird');
 const moment = require('moment');
-const NoPhotosError = require('./errors').NoPhotosError;
 const request = require('request-promise');
+const { NoPhotosError } = require('./errors');
 
 const ROVERS = {
   Curiosity: {
@@ -82,9 +80,7 @@ const CAMERAS = {
  * @return {number} - The Sol number for the given rover
  */
 const convertDatetoSol = (roverName, dateOrSol) => {
-  const rover = _.find(ROVERS, o =>
-    _.lowerCase(o.name) === _.lowerCase(roverName)
-  );
+  const rover = _.find(ROVERS, o => _.lowerCase(o.name) === _.lowerCase(roverName));
   let sol;
 
   if (_.toInteger(dateOrSol) === 0 && dateOrSol !== '0') {
@@ -123,7 +119,7 @@ const convertDatetoSol = (roverName, dateOrSol) => {
 const getMarsRoverPhotos = (rover, camera, sol) => {
   const qs = {
     api_key: process.env.NASA_API_KEY,
-    sol: sol,
+    sol,
     page: 1
   };
 
@@ -134,23 +130,23 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
 
   return request({
     uri: `https://api.nasa.gov/mars-photos/api/v1/rovers/${_.lowerCase(rover)}/photos`,
-    qs: qs,
+    qs,
     json: true
   })
-  .then((photos) => {
-    console.log('Mars Photos in getMarsRoverPhotos function is', photos);
-    return photos;
-  })
-  .catch((err) => {
-    console.log(`Params causing err in getMarsRoverPhotos, rover is ${rover}, camera is ${camera}, sol is ${sol}`);
-    // check for 400 response and errors of: No Photos Found, throw specific error
-    if (err.statusCode === 400 && err.error.errors === 'No Photos Found') {
-      console.log('Received 400 error in getMarsRoverPhotos function');
-      throw new NoPhotosError('OAuth ok response is false');
-    }
-    console.log('Error requesting NASA Mars Photos with qs', err, err.stack);
-    throw err;
-  });
+    .then((photos) => {
+      console.log('Mars Photos in getMarsRoverPhotos function is', photos);
+      return photos;
+    })
+    .catch((err) => {
+      console.log(`Params causing err in getMarsRoverPhotos, rover is ${rover}, camera is ${camera}, sol is ${sol}`);
+      // check for 400 response and errors of: No Photos Found, throw specific error
+      if (err.statusCode === 400 && err.error.errors === 'No Photos Found') {
+        console.log('Received 400 error in getMarsRoverPhotos function');
+        throw new NoPhotosError('OAuth ok response is false');
+      }
+      console.log('Error requesting NASA Mars Photos with qs', err, err.stack);
+      throw err;
+    });
 };
 
 /**
@@ -159,10 +155,10 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
  * @return {string} The Rover Name as a string
  */
 const parseRoverName = (params) => {
-  const result = _(ROVERS).chain().map(val =>
-    _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.name)))
-  ).compact()
-  .value();
+  const result = _(ROVERS).chain()
+    .map(val => _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.name))))
+    .compact()
+    .value();
 
   // default to Curiosity if no rover was found in param list
   if (!result.length) {
@@ -178,10 +174,10 @@ const parseRoverName = (params) => {
  * @return {string} The Camera Name or 'all' as a string
  */
 const parseCameraName = (params) => {
-  const result = _(CAMERAS).chain().map(val =>
-    _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.code)))
-  ).compact()
-  .value();
+  const result = _(CAMERAS).chain()
+    .map(val => _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.code))))
+    .compact()
+    .value();
 
   if (!result.length) {
     result.push('all');
@@ -407,7 +403,7 @@ const getMarsRoversResponse = params => Bluebird.try(() => {
         .catch(NoPhotosError, () => (
           {
             response_type: 'ephemeral',
-            text: `There are no photos available from ${roverName} with the given parameters. Try specifying a different camera or date. Also ensure the camera is available on the given rover. Use the \`rovers cameras list\` command to double check.\nCommand entered: \`rovers ${_.map(params).join(' ')}\``,  // eslint-disable-line max-len
+            text: `There are no photos available from ${roverName} with the given parameters. Try specifying a different camera or date. Also ensure the camera is available on the given rover. Use the \`rovers cameras list\` command to double check.\nCommand entered: \`rovers ${_.map(params).join(' ')}\``, // eslint-disable-line max-len
             mrkdwn: ['text']
           }
         ))

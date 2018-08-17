@@ -1,10 +1,11 @@
 {
   "name": "spacebot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "spacebot - A Slack Bot for exploring NASA images.",
   "scripts": {
-    "pretest": "npm install",
-    "test": "gulp test"
+    "pretest": "yarn install",
+    "test": "yarn lint && mocha test/*.spec.js --reporter spec",
+    "lint": "eslint ."
   },
   "keywords": [
     "slackbot",
@@ -25,23 +26,25 @@
     "url": "git://github.com/mikelax/spacebot"
   },
   "devDependencies": {
-    "chai": "3.5.0",
-    "chai-as-promised": "^5.3.0",
+    "chai": "4.1.2",
+    "chai-as-promised": "7.1.1",
     "chai-things": "^0.2.0",
-    "eslint": "^3.6.0",
-    "eslint-config-airbnb": "12.0.0",
-    "eslint-plugin-import": "^1.16.0",
-    "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-react": "^6.3.0",
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^3.0.1",
-    "gulp-help": "^1.6.1",
-    "gulp-mocha": "^3.0.1",
-    "gulp-util": "^3.0.7",
-    "joi": "^9.1.0",
-    "supertest": "^2.0.0"
+    "eslint": "4.19.1",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-react": "7.11.1",
+    "joi": "9.1.0",
+    "mocha": "5.2.0",
+    "supertest": "3.1.0"
   },
   "dependencies": {
-    "serverless-plugin-autoinstall": "0.5.5"
+    "bluebird": "3.5.1",
+    "create-error": "0.3.1",
+    "lodash": "4.17.10",
+    "moment": "2.14.1",
+    "qs": "6.5.2",
+    "request": "2.88.0",
+    "request-promise": "4.2.2"
   }
 }

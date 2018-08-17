@@ -1,5 +1,3 @@
-'use strict';
-
 const createError = require('create-error');
 
 const EmptyEventError = createError('EmptyEventError');

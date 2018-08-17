@@ -1,13 +1,10 @@
-'use strict';
-
 const _ = require('lodash');
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
 const qs = require('qs');
 
-AWS.config.region = process.env.SERVERLESS_REGION; // HACK as aws-sdk doesn't read in region automatically :(
 // Check if environment supports native promises
 if (typeof Promise === 'undefined') {
-  AWS.config.setPromisesDependency(require('bluebird'));  // eslint-disable-line global-require
+  AWS.config.setPromisesDependency(require('bluebird')); // eslint-disable-line global-require
 }
 
 const sns = new AWS.SNS();
@@ -18,7 +15,7 @@ module.exports.handler = function contact(event, context, cb) {
   if (_.isEmpty(contactBody)) {
     const err = new Error('Empty form submitted');
     err.status = 400;
-    cb(err);
+    cb(null, err);
   }
 
   const params = {
@@ -28,12 +25,24 @@ module.exports.handler = function contact(event, context, cb) {
   };
 
   sns.publish(params).promise()
-  .then(() => {
-    cb(null, '');
-  })
-  .catch((err) => {
-    console.log('Error submitting contact form', err, err.stack);
-    err.status = 400;
-    cb(JSON.stringify(err));
-  });
+    .then(() => {
+      cb(null, {
+        statusCode: 204,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: null
+      });
+    })
+    .catch((err) => {
+      console.log('Error submitting contact form', err, err.stack);
+      err.status = 400;
+      cb({
+        statusCode: 204,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(err)
+      });
+    });
 };

@@ -1,0 +1,134 @@
+service: spacebot
+
+custom:
+  favoritesTableName: 'spacebot-${self:provider.stage}-favorites'
+  tokensTableName: 'spacebot-${self:provider.stage}-oauthtokens'
+  config: ${file(config/config.${self:provider.stage}.yml)}
+
+provider:
+  name: aws
+  profile: spacebot
+  runtime: nodejs8.10
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  memorySize: 128
+  timeout: 6
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["FavoritesDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["TokensDynamoDBTable", "Arn" ] }
+    - Effect: Allow
+      Action:
+        - sns:Publish
+      Resource:
+        - "arn:aws:sns:${self:provider.region}:*:spacebot-contactform-*"
+
+functions:
+  contact:
+    handler: functions/contact/handler.handler
+    description: Website contact form handler
+    events:
+      - http:
+          cors: true
+          path: contact
+          method: post
+    environment:
+      SNS_CONTACTFORM_TOPIC: ${self:custom.config.SNS_CONTACTFORM_TOPIC}
+  messages:
+    handler: functions/messages/handler.handler
+    description: Slack Interactive Messages Handler
+    events:
+      - http:
+          path: slack/messages
+          method: post
+    environment:
+      SLACK_TOKEN: ${self:custom.config.SLACK_TOKEN}
+      FAVORITES_TABLE_NAME: ${self:custom.favoritesTableName}
+  oauth:
+    handler: functions/oauth/handler.oauth
+    description: Slack OAuth function
+    memorySize: 256
+    timeout: 15
+    events:
+      - http:
+          path: slack/oauth
+          method: get
+    environment:
+      OAUTH_SUCCESS_URL: ${self:custom.config.OAUTH_SUCCESS_URL}
+      OAUTH_ERROR_URL: ${self:custom.config.OAUTH_ERROR_URL}
+      SLACK_CLIENT_ID: ${self:custom.config.SLACK_CLIENT_ID}
+      SLACK_CLIENT_SECRET: ${self:custom.config.SLACK_CLIENT_SECRET}
+      SLACK_API_URL: ${self:custom.config.SLACK_API_URL}
+      TOKENS_TABLE_NAME: ${self:custom.tokensTableName}
+  slack:
+    handler: functions/slack/handler.slash
+    description: Slack /spacebot slash command function
+    events:
+      - http:
+          path: slack/slash
+          method: post
+      - schedule:
+          rate: rate(5 minutes)
+          enabled: true
+    environment:
+      SLACK_TOKEN: ${self:custom.config.SLACK_TOKEN}
+      NASA_API_KEY: ${self:custom.config.NASA_API_KEY}
+
+resources:
+  Resources:
+    FavoritesDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: slackUserId
+            AttributeType: S
+          - AttributeName: mediaId
+            AttributeType: N
+          - AttributeName: service
+            AttributeType: S
+        KeySchema:
+          - AttributeName: slackUserId
+            KeyType: HASH
+          - AttributeName: mediaId
+            KeyType: RANGE
+        LocalSecondaryIndexes:
+          - IndexName: userFavoritesByType
+            KeySchema:
+              - AttributeName: slackUserId
+                KeyType: HASH
+              - AttributeName: service
+                KeyType: RANGE
+            Projection:
+              NonKeyAttributes:
+                - mediaId
+              ProjectionType: INCLUDE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.favoritesTableName}
+
+    TokensDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: slackUserId
+            AttributeType: S
+          - AttributeName: teamId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: slackUserId
+            KeyType: HASH
+          - AttributeName: teamId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.tokensTableName}

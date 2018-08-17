@@ -1,30 +1,27 @@
-'use strict';
-
 const chai = require('chai');
+const should = require('chai').should();
 const nasa = require('../functions/lib/nasa');
 const rovers = require('../functions/lib/rovers');
-const should = require('chai').should();
 
 chai.use(require('chai-things'));
 chai.use(require('chai-as-promised'));
 
-const verifyHelp = respPromise =>
-  respPromise
-    .should.be.fulfilled
-    .then((response) => {
-      response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
-      response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
+const verifyHelp = respPromise => respPromise
+  .should.be.fulfilled
+  .then((response) => {
+    response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');
+    response.should.have.a.property('attachments').that.is.an('array').with.lengthOf(1);
 
-      response.should.have.a.deep.property('attachments[0].fallback')
-        .that.matches(/^The rovers sub-command returns data and images from Mars rovers/);
-      response.should.have.a.deep.property('attachments[0].pretext')
-        .that.matches(/If a rover name is omitted then _Curiosity_/);
-      response.should.have.a.deep.property('attachments[0].text')
-        .that.matches(/\/spacebot rovers help - Display this command/);
-      response.should.have.a.deep.property('attachments[0].mrkdwn_in')
-        .that.is.an('array').with.lengthOf(2)
-        .that.equals(['text', 'pretext']);
-    });
+    response.should.have.a.nested.property('attachments[0].fallback')
+      .that.matches(/^The rovers sub-command returns data and images from Mars rovers/);
+    response.should.have.a.nested.property('attachments[0].pretext')
+      .that.matches(/If a rover name is omitted then _Curiosity_/);
+    response.should.have.a.nested.property('attachments[0].text')
+      .that.matches(/\/spacebot rovers help - Display this command/);
+    response.should.have.a.nested.property('attachments[0].mrkdwn_in')
+      .that.is.an('array').with.lengthOf(2)
+      .that.deep.equals(['text', 'pretext']);
+  });
 
 describe('Rovers sub-command', () => {
   describe('getMarsRoversResponse', () => {

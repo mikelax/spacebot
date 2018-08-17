@@ -1,8 +1,0 @@
-{
-  "name": "spacebot",
-  "description": "A slack bot to view images from space",
-  "custom": {},
-  "plugins": [
-    "serverless-plugin-autoinstall"
-  ]
-}
