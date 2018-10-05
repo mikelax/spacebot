@@ -1,4 +1,4 @@
-{
+module.exports = {
   "extends": "airbnb",
   "env": {
     "mocha": true,
@@ -8,9 +8,6 @@
   "rules": {
     //AWS Lambda specific
     "no-console": [0],
-
-    // ES6 func not yet implemented in node 4.3
-    // "prefer-rest-params": [0],
 
     //Couple of my overrides
     "comma-dangle": [2, "never"],
