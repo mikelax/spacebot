@@ -25,23 +25,8 @@ provider:
       Resource:
         - { "Fn::GetAtt": ["FavoritesDynamoDBTable", "Arn" ] }
         - { "Fn::GetAtt": ["TokensDynamoDBTable", "Arn" ] }
-    - Effect: Allow
-      Action:
-        - sns:Publish
-      Resource:
-        - "arn:aws:sns:${self:provider.region}:*:spacebot-contactform-*"
 
 functions:
-  contact:
-    handler: functions/contact/handler.handler
-    description: Website contact form handler
-    events:
-      - http:
-          cors: true
-          path: contact
-          method: post
-    environment:
-      SNS_CONTACTFORM_TOPIC: ${self:custom.config.SNS_CONTACTFORM_TOPIC}
   messages:
     handler: functions/messages/handler.handler
     description: Slack Interactive Messages Handler
