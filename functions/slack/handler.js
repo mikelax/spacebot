@@ -11,7 +11,7 @@ module.exports.slash = function slash(event, context, cb) {
   Bluebird.try(() => slack.verifyKeepAliveOrSSLCheck(slackPayload))
     .then(() => slack.verifyToken(slackPayload.token))
     .then(() => slack.extractSubCommand(slackPayload))
-    .then(command => Bluebird.try(() => slack.COMMANDS[command.command](command.params)))
+    .then((command) => Bluebird.try(() => slack.COMMANDS[command.command](command.params)))
     .then((resp) => {
       cb(null, {
         statusCode: 200,
@@ -30,7 +30,7 @@ module.exports.slash = function slash(event, context, cb) {
         body: 'ACK'
       });
     })
-    .catch(e => cb(null, {
+    .catch((e) => cb(null, {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json'

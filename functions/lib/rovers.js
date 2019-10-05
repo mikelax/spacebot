@@ -80,7 +80,7 @@ const CAMERAS = {
  * @return {number} - The Sol number for the given rover
  */
 const convertDatetoSol = (roverName, dateOrSol) => {
-  const rover = _.find(ROVERS, o => _.lowerCase(o.name) === _.lowerCase(roverName));
+  const rover = _.find(ROVERS, (o) => _.lowerCase(o.name) === _.lowerCase(roverName));
   let sol;
 
   if (_.toInteger(dateOrSol) === 0 && dateOrSol !== '0') {
@@ -156,7 +156,7 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
  */
 const parseRoverName = (params) => {
   const result = _(ROVERS).chain()
-    .map(val => _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.name))))
+    .map((val) => _.find(params, ((paramVal) => _.toLower(paramVal) === _.toLower(val.name))))
     .compact()
     .value();
 
@@ -175,7 +175,7 @@ const parseRoverName = (params) => {
  */
 const parseCameraName = (params) => {
   const result = _(CAMERAS).chain()
-    .map(val => _.find(params, (paramVal => _.toLower(paramVal) === _.toLower(val.code))))
+    .map((val) => _.find(params, ((paramVal) => _.toLower(paramVal) === _.toLower(val.code))))
     .compact()
     .value();
 
@@ -366,7 +366,7 @@ const getRoversInfoHelp = () => {
   return resp;
 };
 
-const getMarsRoversResponse = params => Bluebird.try(() => {
+const getMarsRoversResponse = (params) => Bluebird.try(() => {
   // try to parse parameters
   let command;
   if (_.size(params) > 0) {
