@@ -6,7 +6,7 @@ const rovers = require('../functions/lib/rovers');
 chai.use(require('chai-things'));
 chai.use(require('chai-as-promised'));
 
-const verifyHelp = respPromise => respPromise
+const verifyHelp = (respPromise) => respPromise
   .should.be.fulfilled
   .then((response) => {
     response.should.have.a.property('response_type').that.is.a('string').that.equals('ephemeral');

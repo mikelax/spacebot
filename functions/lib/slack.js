@@ -48,13 +48,13 @@ const COMMANDS = {
  * @param {Object} payload - THe payload for the command
  * @return {string} The name of the platform
  */
-const extractPlatform = payload => (payload.channel_name && payload.team_domain ? 'slack' : 'teams');
+const extractPlatform = (payload) => (payload.channel_name && payload.team_domain ? 'slack' : 'teams');
 
 /**
  * Verify the token received from request matches token registered with slack app
  * @param {string} requestToken - The token extracted from the request
  */
-const verifyToken = requestToken => Bluebird.try(() => {
+const verifyToken = (requestToken) => Bluebird.try(() => {
   const TOKEN = process.env.SLACK_TOKEN || 'token';
 
   if (TOKEN !== requestToken) {
@@ -98,7 +98,7 @@ const extractSubCommand = (payload) => {
  * @param {string} [event.queryStringParameters.error] - An error from the OAuth process
  * @param {string} [event.queryStringParameters.state] - String passed through from initial OAuth request
  */
-const exchangeCodeForToken = event => Bluebird.try(() => {
+const exchangeCodeForToken = (event) => Bluebird.try(() => {
   if (event.queryStringParameters.error) {
     throw new OAuthError('OAuth Request rejected by user');
   }

@@ -4,7 +4,7 @@ const moment = require('moment');
 const request = require('request-promise');
 const { InvalidDateError } = require('./errors');
 
-const getAPOD = date => request({
+const getAPOD = (date) => request({
   uri: 'https://api.nasa.gov/planetary/apod',
   qs: {
     api_key: process.env.NASA_API_KEY,
@@ -34,7 +34,7 @@ const getAPODPageUrl = (date) => {
   return `http://apod.nasa.gov/apod/ap${year}${month}${day}.html`;
 };
 
-const getAPODResponse = params => Bluebird.try(() => {
+const getAPODResponse = (params) => Bluebird.try(() => {
   // Assign a default date of today to serve as default
   let date = moment();
   // Account for lambda running in UTC but nasa APIs in ET (prevents end of day calls to next day)
