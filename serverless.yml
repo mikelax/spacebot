@@ -8,7 +8,7 @@ custom:
 provider:
   name: aws
   profile: spacebot
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   region: us-east-1
   stage: ${opt:stage, 'dev'}
   memorySize: 128
@@ -70,7 +70,7 @@ functions:
 resources:
   Resources:
     FavoritesDynamoDBTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
           - AttributeName: slackUserId
@@ -101,7 +101,7 @@ resources:
         TableName: ${self:custom.favoritesTableName}
 
     TokensDynamoDBTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
           - AttributeName: slackUserId
