@@ -4,7 +4,7 @@ const request = require('request-promise');
 const { EmptyEventError } = require('./errors');
 const { InvalidTokenError } = require('./errors');
 const nasa = require('./nasa');
-const { OAuthError } = require('../lib/errors');
+const { OAuthError } = require('./errors');
 const rovers = require('./rovers');
 
 /**

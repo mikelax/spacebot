@@ -21,7 +21,7 @@ Click the button below to add spacebot to your slack channel and get started.
 
 ## Usage
 
-Please [see the instructions page](https://slashspacebot.com/) that list all the commands available.
+Please [see the instructions page](https://slashspacebot.netlify.app/) that list all the commands available.
 
 **Sample command** - Run the following command to see images from the Opportunity rover atop the [highest peak it has climbed](https://mars.nasa.gov/resources/7789/opportunitys-devilish-view-from-on-high/) to date:  `/spacebot rovers photos opportunity navcam 4332`
 
