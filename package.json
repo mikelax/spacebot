@@ -3,8 +3,8 @@
   "version": "0.2.0",
   "description": "spacebot - A Slack Bot for exploring NASA images.",
   "scripts": {
-    "pretest": "yarn install",
-    "test": "yarn lint && mocha test/*.spec.js --reporter spec",
+    "pretest": "npm install",
+    "test": "npm run lint && mocha test/*.spec.js --reporter spec",
     "lint": "eslint ."
   },
   "keywords": [
@@ -29,20 +29,20 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "chai-things": "^0.2.0",
-    "eslint": "6.5.1",
-    "eslint-config-airbnb-base": "14.0.0",
-    "eslint-plugin-import": "2.18.2",
+    "eslint": "7.7.0",
+    "eslint-config-airbnb-base": "14.2.0",
+    "eslint-plugin-import": "2.22.0",
     "joi": "14.3.1",
-    "mocha": "5.2.0",
+    "mocha": "8.1.2",
     "supertest": "4.0.2"
   },
   "dependencies": {
     "bluebird": "3.5.2",
     "create-error": "0.3.1",
-    "lodash": "4.17.19",
+    "lodash": "4.17.20",
     "moment": "2.22.2",
-    "qs": "6.9.1",
-    "request": "2.88.0",
-    "request-promise": "4.2.5"
+    "qs": "6.9.4",
+    "request": "2.88.2",
+    "request-promise": "4.2.6"
   }
 }
