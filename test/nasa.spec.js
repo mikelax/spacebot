@@ -34,7 +34,7 @@ describe('NASA API Validation', () => {
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
-          const val = Joi.validate(res.body, apodImageSchema);
+          const val = apodImageSchema.validate(res.body);
           if (val.error) {
             done(val.error);
           } else {
@@ -49,7 +49,7 @@ describe('NASA API Validation', () => {
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
-          const val = Joi.validate(res.body, apodVideoSchema);
+          const val = apodVideoSchema.validate(res.body);
           if (val.error) {
             done(val.error);
           } else {
@@ -86,7 +86,7 @@ describe('NASA API Validation', () => {
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
-          const val = Joi.validate(res.body, roversSchema);
+          const val = roversSchema.validate(res.body);
           if (val.error) {
             done(val.error);
           } else {

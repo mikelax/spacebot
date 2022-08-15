@@ -41,7 +41,7 @@ const getAPODResponse = (params) => Bluebird.try(() => {
   date = date.utcOffset(-4);
 
   if (_.size(params) > 0) {
-    if (_.lowerCase(params[0]) === 'random') {
+    if (params[0].toLowerCase() === 'random') {
       // Generate random date here
       date = moment().subtract(Math.floor((Math.random() * 7300) + 1), 'days');
     } else if (moment(params[0]).isValid()) {

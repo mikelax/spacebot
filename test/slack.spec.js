@@ -9,8 +9,10 @@ describe('Slack Lib', () => {
   describe('verifyToken', () => {
     it('doesn\'t throw an error for correct token', () => slack.verifyToken('token').should.be.fulfilled);
 
-    it('throws an error for an invalid token',
-      () => slack.verifyToken('foo').should.be.rejectedWith(InvalidTokenError));
+    it(
+      'throws an error for an invalid token',
+      () => slack.verifyToken('foo').should.be.rejectedWith(InvalidTokenError)
+    );
   });
 
   describe('exchangeCodeForToken', () => {
