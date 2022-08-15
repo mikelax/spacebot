@@ -1,6 +1,6 @@
 # What is SpaceBot - The Slack Bot for Space
 
-[![Build Status](https://travis-ci.org/mikelax/spacebot.svg?branch=master)](https://travis-ci.org/mikelax/spacebot)
+[![Run tests](https://github.com/mikelax/spacebot/actions/workflows/test.yml/badge.svg)](https://github.com/mikelax/spacebot/actions/workflows/test.yml)
 [![license](https://img.shields.io/badge/license-Apache--2-blue.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Spacebot is a Slack bot that you can interact with to view images and information about space.
