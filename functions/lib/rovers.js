@@ -80,7 +80,7 @@ const CAMERAS = {
  * @return {number} - The Sol number for the given rover
  */
 const convertDatetoSol = (roverName, dateOrSol) => {
-  const rover = _.find(ROVERS, (o) => _.lowerCase(o.name) === _.lowerCase(roverName));
+  const rover = _.find(ROVERS, (o) => o.name.toLowerCase() === roverName.toLowerCase());
   let sol;
 
   if (_.toInteger(dateOrSol) === 0 && dateOrSol !== '0') {
@@ -124,12 +124,12 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
   };
 
   // TODO change this logic to only add qs.camera if value matches name from CAMERAS object
-  if (_.lowerCase(camera) !== _.lowerCase('all')) {
+  if (camera.toLowerCase() !== 'all') {
     qs.camera = camera;
   }
 
   return request({
-    uri: `https://api.nasa.gov/mars-photos/api/v1/rovers/${_.lowerCase(rover)}/photos`,
+    uri: `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover.toLowerCase()}/photos`,
     qs,
     json: true
   })
@@ -156,7 +156,7 @@ const getMarsRoverPhotos = (rover, camera, sol) => {
  */
 const parseRoverName = (params) => {
   const result = _(ROVERS).chain()
-    .map((val) => _.find(params, ((paramVal) => _.toLower(paramVal) === _.toLower(val.name))))
+    .map((val) => _.find(params, ((paramVal) => paramVal.toLowerCase() === val.name.toLowerCase())))
     .compact()
     .value();
 
@@ -175,7 +175,7 @@ const parseRoverName = (params) => {
  */
 const parseCameraName = (params) => {
   const result = _(CAMERAS).chain()
-    .map((val) => _.find(params, ((paramVal) => _.toLower(paramVal) === _.toLower(val.code))))
+    .map((val) => _.find(params, ((paramVal) => paramVal.toLowerCase() === val.code.toLowerCase())))
     .compact()
     .value();
 
@@ -370,13 +370,13 @@ const getMarsRoversResponse = (params) => Bluebird.try(() => {
   // try to parse parameters
   let command;
   if (_.size(params) > 0) {
-    if (_.lowerCase(params[0]) === 'help') {
+    if (params[0].toLowerCase() === 'help') {
       command = getRoversHelp();
-    } else if (_.lowerCase(params[0]) === 'info') {
+    } else if (params[0].toLowerCase() === 'info') {
       command = getRoversInfoHelp();
-    } else if (_.lowerCase(params[0]) === 'cameras' && _.lowerCase(params[1]) === 'list') {
+    } else if (params[0].toLowerCase() === 'cameras' && params[1].toLowerCase() === 'list') {
       command = getRoverCameraHelp();
-    } else if (_.lowerCase(params[0]) === 'photos') {
+    } else if (params[0].toLowerCase() === 'photos') {
       const roverName = parseRoverName(_.tail(params));
       const cameraName = parseCameraName(_.tail(params));
       // API appears to lag by about two days with pictures that are available

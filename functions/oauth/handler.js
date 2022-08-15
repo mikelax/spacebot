@@ -5,11 +5,13 @@ const slack = require('../lib/slack');
 module.exports.oauth = function oauth(event, context, cb) {
   slack.exchangeCodeForToken(event)
     .then((resp) => {
-      dynamodb.saveOAuthToken(resp.user_id,
+      dynamodb.saveOAuthToken(
+        resp.user_id,
         resp.team_id,
         resp.access_token,
         resp.scope,
-        resp.team_name);
+        resp.team_name
+      );
     })
     .then(() => {
       cb(null, {

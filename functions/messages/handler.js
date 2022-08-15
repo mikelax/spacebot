@@ -36,8 +36,12 @@ module.exports.handler = function messages(event, context, cb) {
   console.log('The messagePayload is', messagePayload);
 
   slack.verifyToken(messagePayload.token)
-    .then(() => saveFavorite(messagePayload.user.id, messagePayload.callback_id,
-      _.head(messagePayload.actions).value, messagePayload))
+    .then(() => saveFavorite(
+      messagePayload.user.id,
+      messagePayload.callback_id,
+      _.head(messagePayload.actions).value,
+      messagePayload
+    ))
     .then((resp) => {
       console.log('The response after saveFavorite call is', resp);
       const slackResponse = {

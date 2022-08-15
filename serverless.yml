@@ -8,23 +8,26 @@ custom:
 provider:
   name: aws
   profile: spacebot
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: us-east-1
   stage: ${opt:stage, 'dev'}
   memorySize: 128
   timeout: 6
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource:
-        - { "Fn::GetAtt": ["FavoritesDynamoDBTable", "Arn" ] }
-        - { "Fn::GetAtt": ["TokensDynamoDBTable", "Arn" ] }
+  iam:
+    role:
+      name: spacebot
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - !GetAtt FavoritesDynamoDBTable.Arn
+            - !GetAtt TokensDynamoDBTable.Arn
 
 functions:
   messages:
